@@ -1,3 +1,4 @@
+alert("SCRIPT CARREGADO");
 const chat = document.getElementById("chat");
 
 function addMessage(sender, text, type) {
