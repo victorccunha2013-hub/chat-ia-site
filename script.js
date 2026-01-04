@@ -1,51 +1,41 @@
-alert("SCRIPT CARREGADO");
-const chat = document.getElementById("chat");
+document.addEventListener("DOMContentLoaded", () => {
 
-function addMessage(sender, text, type) {
-  const msg = document.createElement("div");
-  msg.innerText = `${sender}: ${text}`;
-  chat.appendChild(msg);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function showTyping() {
-  const typing = document.createElement("div");
-  typing.id = "typing";
-  typing.innerText = "IA está digitando...";
-  chat.appendChild(typing);
-}
-
-function removeTyping() {
-  const typing = document.getElementById("typing");
-  if (typing) typing.remove();
-}
-
-async function sendMessage() {
+  const chat = document.getElementById("chat");
   const input = document.getElementById("message");
-  const text = input.value.trim();
 
-  if (!text) return;
-
-  addMessage("Você", text);
-  input.value = "";
-
-  showTyping();
-
-  try {
-    const response = await fetch("https://chatbr.onrender.com/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text })
-    });
-
-    const data = await response.json();
-
-    removeTyping();
-    addMessage("IA", data.reply);
-
-  } catch (error) {
-    removeTyping();
-    addMessage("Erro", "Não foi possível conectar ao servidor");
-    console.error(error);
+  function addMessage(sender, text) {
+    const div = document.createElement("div");
+    div.innerText = `${sender}: ${text}`;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
   }
-}
+
+  window.sendMessage = async function () {
+    if (!input) {
+      console.error("Input não encontrado");
+      return;
+    }
+
+    const text = input.value.trim();
+    if (!text) return;
+
+    addMessage("Você", text);
+    input.value = "";
+
+    try {
+      const response = await fetch("https://chatbr.onrender.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text })
+      });
+
+      const data = await response.json();
+      addMessage("IA", data.reply);
+
+    } catch (error) {
+      addMessage("Erro", "Falha ao conectar");
+      console.error(error);
+    }
+  };
+
+});
