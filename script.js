@@ -3,12 +3,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const chat = document.getElementById("chat");
   const input = document.getElementById("message");
 
-  function addMessage(sender, text) {
-    const div = document.createElement("div");
-    div.innerText = `${sender}: ${text}`;
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
-  }
+function addMessage(sender, text, type) {
+  const div = document.createElement("div");
+  div.classList.add("message", type);
+  div.innerText = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
 
   window.sendMessage = async function () {
     if (!input) {
