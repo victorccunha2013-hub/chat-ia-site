@@ -1,58 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>ChatScript</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Layout -->
-  <div class="app">
-    <aside class="sidebar"></aside>
+<div class="container">
 
-    <main class="chat">
-      <header class="topbar">
-        <h1>ChatScript</h1>
-        <div class="user-circle" id="userCircle"></div>
-      </header>
-
-      <div class="messages" id="messages"></div>
-
-      <div class="input-area">
-        <input id="chatInput" placeholder="Digite sua mensagem..." />
-        <button>Enviar</button>
-      </div>
-    </main>
-  </div>
-
-  <!-- Modal Login -->
-  <div class="modal" id="loginModal">
-    <div class="modal-box">
-      <span class="close" id="closeLogin">×</span>
-      <h2>Login</h2>
-      <input id="loginEmail" type="email" placeholder="E-mail">
-      <input id="loginPassword" type="password" placeholder="Senha">
-      <button id="loginBtn">Entrar</button>
-      <p class="link" id="goCreate">Não tem conta? Crie aqui</p>
-      <p class="status" id="loginStatus"></p>
+  <!-- COLUNA ESQUERDA -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <button class="new-chat">+ Novo chat</button>
     </div>
-  </div>
 
-  <!-- Modal Criar Conta -->
-  <div class="modal" id="createModal">
-    <div class="modal-box">
-      <span class="close" id="closeCreate">×</span>
-      <h2>Criar Conta</h2>
-      <input id="createEmail" type="email" placeholder="E-mail">
-      <input id="createPassword" type="password" placeholder="Senha">
-      <button id="createBtn">Criar Conta</button>
-      <p class="link" id="goLogin">Já tem conta? Entrar</p>
-      <p class="status" id="createStatus"></p>
+    <div class="chat-list">
+      <!-- chats futuros -->
     </div>
-  </div>
+  </aside>
 
-  <script src="script.js"></script>
+  <!-- COLUNA DIREITA -->
+  <main class="chat-area">
+
+    <header class="topbar">
+      <span class="title">ChatScript</span>
+      <div class="user-circle"></div>
+    </header>
+
+    <div class="messages" id="messages">
+      <!-- mensagens -->
+    </div>
+
+    <div class="input-area">
+      <input
+        id="chatInput"
+        type="text"
+        placeholder="Envie uma mensagem"
+        autocomplete="off"
+      />
+    </div>
+
+  </main>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
