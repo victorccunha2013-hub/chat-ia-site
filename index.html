@@ -8,14 +8,11 @@
 </head>
 <body>
   <div class="main-container">
-    <!-- Sidebar esquerda -->
     <div class="sidebar">
       <h2>Conversas</h2>
     </div>
 
-    <!-- Área de chat direita -->
     <div class="chat-container">
-      <!-- Cabeçalho com título e círculo de usuário -->
       <div class="chat-header">
         <h1>💬 ChatScript</h1>
         <div class="user-circle" title="Usuário não registrado"></div>
@@ -32,6 +29,7 @@
   <!-- Modal Login -->
   <div id="loginModal" class="modal hidden">
     <div class="modal-content">
+      <button class="close-btn" id="closeLogin">×</button>
       <h2>Login</h2>
       <input type="email" id="loginEmail" placeholder="E-mail">
       <input type="password" id="loginPassword" placeholder="Senha">
@@ -43,6 +41,7 @@
   <!-- Modal Criar Conta -->
   <div id="createModal" class="modal hidden">
     <div class="modal-content">
+      <button class="close-btn" id="closeCreate">×</button>
       <h2>Criar Conta</h2>
       <input type="email" id="createEmail" placeholder="E-mail">
       <input type="password" id="createPassword" placeholder="Senha">
