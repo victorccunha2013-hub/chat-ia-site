@@ -127,3 +127,8 @@ body {
   display: flex;
   flex-direction: column;
 }
+/* indicador digitando */
+#typing {
+  font-style: italic;
+  opacity: 0.7;
+}

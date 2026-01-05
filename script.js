@@ -7,29 +7,59 @@ input.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && input.value.trim() !== "") {
     const userText = input.value.trim();
 
-    // mensagem do usuário (DIREITA)
+    // mensagem do usuário (direita)
     addMessage(userText, "user");
 
     input.value = "";
 
-    // resposta fake da IA (ESQUERDA)
+    // IA digitando
+    showTypingIndicator();
+
+    // resposta da IA (fake por enquanto)
     setTimeout(() => {
-      addMessage("Resposta da IA em breve 🤖", "ai");
-    }, 600);
+      removeTypingIndicator();
+      typeAIMessage("Essa é uma resposta com animação de digitação 🤖");
+    }, 800);
   }
 });
 
 function addMessage(text, type) {
   const msg = document.createElement("div");
-  msg.classList.add("message");
-
-  if (type === "user") {
-    msg.classList.add("user");
-  } else {
-    msg.classList.add("ai");
-  }
-
+  msg.classList.add("message", type);
   msg.textContent = text;
   messages.appendChild(msg);
   messages.scrollTop = messages.scrollHeight;
+}
+
+// indicador "digitando..."
+function showTypingIndicator() {
+  const typing = document.createElement("div");
+  typing.classList.add("message", "ai");
+  typing.id = "typing";
+  typing.textContent = "Digitando...";
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  const typing = document.getElementById("typing");
+  if (typing) typing.remove();
+}
+
+// animação letra por letra
+function typeAIMessage(text) {
+  const msg = document.createElement("div");
+  msg.classList.add("message", "ai");
+  messages.appendChild(msg);
+
+  let i = 0;
+  const interval = setInterval(() => {
+    msg.textContent += text.charAt(i);
+    i++;
+    messages.scrollTop = messages.scrollHeight;
+
+    if (i >= text.length) {
+      clearInterval(interval);
+    }
+  }, 30);
 }
