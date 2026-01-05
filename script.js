@@ -15,7 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const div = document.createElement("div");
     div.id = "typing";
     div.classList.add("message", "bot", "typing");
-    div.innerText = "Digitando...";
+
+    // Criar 3 bolinhas animadas
+    for (let i = 0; i < 3; i++) {
+      const dot = document.createElement("span");
+      dot.classList.add("dot");
+      div.appendChild(dot);
+    }
+
     chat.appendChild(div);
     chat.scrollTop = chat.scrollHeight;
   }
@@ -55,10 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     button.disabled = false;
   }
 
-  // Enviar ao clicar
   button.addEventListener("click", sendMessage);
-
-  // Enviar ao pressionar Enter
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") sendMessage();
   });
