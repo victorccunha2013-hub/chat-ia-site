@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   const chat = document.getElementById("chat");
   const input = document.getElementById("message");
   const button = document.getElementById("sendBtn");
@@ -26,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typing) typing.remove();
   }
 
-  window.sendMessage = async function () {
+  async function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
 
@@ -39,24 +38,28 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await fetch("https://chatbr.onrender.com/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text })
       });
 
       const data = await response.json();
-
       removeTyping();
       addMessage(data.reply || "Sem resposta 😅", "bot");
 
     } catch (error) {
       removeTyping();
-      addMessage("Erro ao conectar com o servidor 😢", "bot");
+      addMessage("Erro ao conectar 😢", "bot");
       console.error(error);
     }
 
     button.disabled = false;
-  };
+  }
 
+  // Botão
+  button.addEventListener("click", sendMessage);
+
+  // Enter
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendMessage();
+  });
 });
