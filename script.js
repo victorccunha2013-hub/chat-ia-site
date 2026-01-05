@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     div.id = "typing";
     div.classList.add("message", "bot", "typing");
 
-    // Criar 3 bolinhas animadas
     for (let i = 0; i < 3; i++) {
       const dot = document.createElement("span");
       dot.classList.add("dot");
