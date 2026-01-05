@@ -106,21 +106,23 @@ body {
   font-size: 15px;
 }
 
-/* USUÁRIO */
+/* USUÁRIO (começa após o meio) */
 .message.user {
   background: #40414f;
+  margin-left: 40%;
+  margin-right: 0;
   align-self: flex-end;
-  margin-left: auto;
 }
 
-/* IA */
+/* IA (mais à esquerda) */
 .message.ai {
   background: #444654;
+  margin-left: 0;
+  margin-right: 40%;
   align-self: flex-start;
-  margin-right: auto;
 }
 
-/* Ajuste da área */
+/* ÁREA DE MENSAGENS */
 .messages {
   display: flex;
   flex-direction: column;
