@@ -96,3 +96,32 @@ body {
   color: white;
   font-size: 15px;
 }
+/* MENSAGENS */
+.message {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  line-height: 1.4;
+  font-size: 15px;
+}
+
+/* USUÁRIO */
+.message.user {
+  background: #40414f;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+/* IA */
+.message.ai {
+  background: #444654;
+  align-self: flex-start;
+  margin-right: auto;
+}
+
+/* Ajuste da área */
+.messages {
+  display: flex;
+  flex-direction: column;
+}
