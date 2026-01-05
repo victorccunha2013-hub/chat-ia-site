@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // ---------- CHAT EXISTENTE ----------
   const chat = document.getElementById("chat");
   const input = document.getElementById("message");
   const button = document.getElementById("sendBtn");
@@ -65,27 +66,34 @@ document.addEventListener("DOMContentLoaded", () => {
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") sendMessage();
   });
-});
-// Modal login/criar conta
-const loginModal = document.getElementById("loginModal");
-const createModal = document.getElementById("createModal");
-const userCircle = document.querySelector(".user-circle");
-const createAccountLink = document.getElementById("createAccountLink");
-const backToLogin = document.getElementById("backToLogin");
 
-// Abrir modal login ao clicar no círculo
-userCircle.addEventListener("click", () => {
-  loginModal.classList.remove("hidden");
-});
+  // ---------- MODAL LOGIN ----------
 
-// Abrir tela criar conta
-createAccountLink.addEventListener("click", () => {
-  loginModal.classList.add("hidden");
-  createModal.classList.remove("hidden");
-});
+  const loginModal = document.getElementById("loginModal");
+  const createModal = document.getElementById("createModal");
+  const userCircle = document.querySelector(".user-circle");
+  const createAccountLink = document.getElementById("createAccountLink");
+  const backToLogin = document.getElementById("backToLogin");
 
-// Voltar para login
-backToLogin.addEventListener("click", () => {
-  createModal.classList.add("hidden");
-  loginModal.classList.remove("hidden");
+  // Função para abrir modal
+  function openLoginModal() {
+    loginModal.classList.remove("hidden");
+  }
+
+  // Função para abrir criar conta
+  function openCreateModal() {
+    loginModal.classList.add("hidden");
+    createModal.classList.remove("hidden");
+  }
+
+  // Voltar para login
+  function backLoginModal() {
+    createModal.classList.add("hidden");
+    loginModal.classList.remove("hidden");
+  }
+
+  // Eventos
+  userCircle.addEventListener("click", openLoginModal);
+  createAccountLink.addEventListener("click", openCreateModal);
+  backToLogin.addEventListener("click", backLoginModal);
 });
