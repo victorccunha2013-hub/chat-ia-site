@@ -55,10 +55,10 @@ document.addEventListener("DOMContentLoaded", () => {
     button.disabled = false;
   }
 
-  // Botão
+  // Enviar ao clicar
   button.addEventListener("click", sendMessage);
 
-  // Enter
+  // Enviar ao pressionar Enter
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") sendMessage();
   });
