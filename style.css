@@ -147,3 +147,36 @@ body {
   0%, 80%, 100% { opacity: 0; }
   40% { opacity: 1; }
 }
+/* Cabeçalho da área de chat */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: var(--color-heading);
+  color: white;
+}
+
+/* Mantém o h1 sem margem */
+.chat-header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+/* Ícone de usuário circular */
+.user-icon {
+  width: 40px;
+  height: 40px;
+  background: #ffffff33; /* semi-transparente */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 20px;
+  transition: background 0.3s;
+}
+
+.user-icon:hover {
+  background: #ffffff55;
+}
