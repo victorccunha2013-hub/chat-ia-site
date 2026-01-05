@@ -1,99 +1,75 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // ----- CHAT EXISTENTE -----
-  const chat = document.getElementById("chat");
-  const input = document.getElementById("message");
-  const button = document.getElementById("sendBtn");
+console.log("✅ script.js carregado");
 
-  function addMessage(text, type) {
-    const div = document.createElement("div");
-    div.classList.add("message", type);
-    div.innerText = text;
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
+const BASE_URL = "http://127.0.0.1:5000";
+
+// ELEMENTOS
+const userCircle = document.getElementById("userCircle");
+const loginModal = document.getElementById("loginModal");
+const createModal = document.getElementById("createModal");
+
+// ABRIR MODAL
+userCircle.onclick = () => loginModal.style.display = "flex";
+
+// FECHAR
+document.getElementById("closeLogin").onclick = () => loginModal.style.display = "none";
+document.getElementById("closeCreate").onclick = () => createModal.style.display = "none";
+
+// TROCA
+document.getElementById("goCreate").onclick = () => {
+  loginModal.style.display = "none";
+  createModal.style.display = "flex";
+};
+
+document.getElementById("goLogin").onclick = () => {
+  createModal.style.display = "none";
+  loginModal.style.display = "flex";
+};
+
+// CRIAR CONTA
+document.getElementById("createBtn").onclick = async () => {
+  console.log("🟢 Criar conta clicado");
+
+  const email = document.getElementById("createEmail").value;
+  const password = document.getElementById("createPassword").value;
+  const status = document.getElementById("createStatus");
+
+  if (!email || !password) {
+    status.textContent = "Preencha tudo";
+    return;
   }
 
-  function showTyping() {
-    const div = document.createElement("div");
-    div.id = "typing";
-    div.classList.add("message", "bot", "typing");
-    for (let i = 0; i < 3; i++) {
-      const dot = document.createElement("span");
-      dot.classList.add("dot");
-      div.appendChild(dot);
-    }
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
+  try {
+    const res = await fetch(`${BASE_URL}/register`, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+    status.textContent = data.message || data.error;
+
+  } catch {
+    status.textContent = "Erro ao conectar";
   }
+};
 
-  function removeTyping() {
-    const typing = document.getElementById("typing");
-    if (typing) typing.remove();
+// LOGIN
+document.getElementById("loginBtn").onclick = async () => {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+  const status = document.getElementById("loginStatus");
+
+  try {
+    const res = await fetch(`${BASE_URL}/login`, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+    status.textContent = data.message || data.error;
+
+  } catch {
+    status.textContent = "Erro ao conectar";
   }
-
-  async function sendMessage() {
-    const text = input.value.trim();
-    if (!text) return;
-    addMessage(text, "user");
-    input.value = "";
-    button.disabled = true;
-    showTyping();
-
-    try {
-      const response = await fetch("https://chatbr.onrender.com/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text })
-      });
-
-      const data = await response.json();
-      removeTyping();
-      addMessage(data.reply || "Sem resposta 😅", "bot");
-    } catch (error) {
-      removeTyping();
-      addMessage("Erro ao conectar 😢", "bot");
-      console.error(error);
-    }
-    button.disabled = false;
-  }
-
-  button.addEventListener("click", sendMessage);
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") sendMessage();
-  });
-
-  // ----- MODAL LOGIN/CRIAR -----
-  const loginModal = document.getElementById("loginModal");
-  const createModal = document.getElementById("createModal");
-  const userCircle = document.querySelector(".user-circle");
-  const createAccountLink = document.getElementById("createAccountLink");
-  const backToLogin = document.getElementById("backToLogin");
-  const closeLogin = document.getElementById("closeLogin");
-  const closeCreate = document.getElementById("closeCreate");
-
-  // Abrir login
-  userCircle.addEventListener("click", () => {
-    loginModal.classList.add("show");
-  });
-
-  // Abrir criar conta
-  createAccountLink.addEventListener("click", () => {
-    loginModal.classList.remove("show");
-    createModal.classList.add("show");
-  });
-
-  // Voltar para login
-  backToLogin.addEventListener("click", () => {
-    createModal.classList.remove("show");
-    loginModal.classList.add("show");
-  });
-
-  // Fechar modais
-  closeLogin.addEventListener("click", () => loginModal.classList.remove("show"));
-  closeCreate.addEventListener("click", () => createModal.classList.remove("show"));
-
-  // Fechar clicando fora do conteúdo
-  window.addEventListener("click", (e) => {
-    if (e.target === loginModal) loginModal.classList.remove("show");
-    if (e.target === createModal) createModal.classList.remove("show");
-  });
-});
+};

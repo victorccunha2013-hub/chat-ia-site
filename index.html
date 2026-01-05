@@ -1,52 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ChatScript</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="main-container">
-    <div class="sidebar">
-      <h2>Conversas</h2>
-    </div>
 
-    <div class="chat-container">
-      <div class="chat-header">
-        <h1>💬 ChatScript</h1>
-        <div class="user-circle" title="Usuário não registrado"></div>
-      </div>
+  <!-- Layout -->
+  <div class="app">
+    <aside class="sidebar"></aside>
 
-      <div id="chat" class="chat-box"></div>
+    <main class="chat">
+      <header class="topbar">
+        <h1>ChatScript</h1>
+        <div class="user-circle" id="userCircle"></div>
+      </header>
+
+      <div class="messages" id="messages"></div>
+
       <div class="input-area">
-        <input type="text" id="message" placeholder="Digite sua mensagem no ChatScript..." autocomplete="off"/>
-        <button id="sendBtn">Enviar</button>
+        <input id="chatInput" placeholder="Digite sua mensagem..." />
+        <button>Enviar</button>
       </div>
-    </div>
+    </main>
   </div>
 
   <!-- Modal Login -->
-  <div id="loginModal" class="modal hidden">
-    <div class="modal-content">
-      <button class="close-btn" id="closeLogin">×</button>
+  <div class="modal" id="loginModal">
+    <div class="modal-box">
+      <span class="close" id="closeLogin">×</span>
       <h2>Login</h2>
-      <input type="email" id="loginEmail" placeholder="E-mail">
-      <input type="password" id="loginPassword" placeholder="Senha">
+      <input id="loginEmail" type="email" placeholder="E-mail">
+      <input id="loginPassword" type="password" placeholder="Senha">
       <button id="loginBtn">Entrar</button>
-      <p class="small-text">Não tem uma conta? <span id="createAccountLink">Crie aqui</span></p>
+      <p class="link" id="goCreate">Não tem conta? Crie aqui</p>
+      <p class="status" id="loginStatus"></p>
     </div>
   </div>
 
   <!-- Modal Criar Conta -->
-  <div id="createModal" class="modal hidden">
-    <div class="modal-content">
-      <button class="close-btn" id="closeCreate">×</button>
+  <div class="modal" id="createModal">
+    <div class="modal-box">
+      <span class="close" id="closeCreate">×</span>
       <h2>Criar Conta</h2>
-      <input type="email" id="createEmail" placeholder="E-mail">
-      <input type="password" id="createPassword" placeholder="Senha">
+      <input id="createEmail" type="email" placeholder="E-mail">
+      <input id="createPassword" type="password" placeholder="Senha">
       <button id="createBtn">Criar Conta</button>
-      <p class="small-text">Já tem uma conta? <span id="backToLogin">Entre aqui</span></p>
+      <p class="link" id="goLogin">Já tem conta? Entrar</p>
+      <p class="status" id="createStatus"></p>
     </div>
   </div>
 
