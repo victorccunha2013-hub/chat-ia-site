@@ -66,3 +66,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Enter") sendMessage();
   });
 });
+// Modal login/criar conta
+const loginModal = document.getElementById("loginModal");
+const createModal = document.getElementById("createModal");
+const userCircle = document.querySelector(".user-circle");
+const createAccountLink = document.getElementById("createAccountLink");
+const backToLogin = document.getElementById("backToLogin");
+
+// Abrir modal login ao clicar no círculo
+userCircle.addEventListener("click", () => {
+  loginModal.classList.remove("hidden");
+});
+
+// Abrir tela criar conta
+createAccountLink.addEventListener("click", () => {
+  loginModal.classList.add("hidden");
+  createModal.classList.remove("hidden");
+});
+
+// Voltar para login
+backToLogin.addEventListener("click", () => {
+  createModal.classList.add("hidden");
+  loginModal.classList.remove("hidden");
+});
