@@ -1,134 +1,74 @@
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  font-family: system-ui, Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 body {
-  margin: 0;
   background: #343541;
-  color: #ececf1;
+  height: 100vh;
 }
 
-/* LAYOUT PRINCIPAL */
-.container {
+.app {
   display: flex;
   height: 100vh;
 }
 
-/* SIDEBAR */
+/* coluna esquerda */
 .sidebar {
   width: 260px;
   background: #202123;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-header {
-  padding: 10px;
-}
-
-.new-chat {
-  width: 100%;
-  padding: 10px;
-  background: transparent;
-  border: 1px solid #4b4c5a;
   color: white;
-  border-radius: 6px;
-  cursor: pointer;
+  padding: 20px;
 }
 
-.chat-list {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-}
-
-/* ÁREA DO CHAT */
+/* área do chat */
 .chat-area {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-/* TOPO */
-.topbar {
-  height: 50px;
-  background: #343541;
-  border-bottom: 1px solid #4b4c5a;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-}
-
-.title {
-  font-weight: 600;
-}
-
-.user-circle {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #888;
-}
-
-/* MENSAGENS */
+/* mensagens */
 .messages {
   flex: 1;
-  padding: 24px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
 }
 
-/* INPUT */
+.message {
+  max-width: 60%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  color: white;
+}
+
+.message.user {
+  align-self: flex-end;
+  background: #6d5dfc;
+}
+
+.message.bot {
+  align-self: flex-start;
+  background: #444654;
+}
+
+/* input */
 .input-area {
-  padding: 16px;
-  border-top: 1px solid #4b4c5a;
-  background: #343541;
+  padding: 15px;
+  border-top: 1px solid #555;
 }
 
 .input-area input {
   width: 100%;
-  padding: 14px 16px;
-  border-radius: 10px;
+  padding: 14px;
+  border-radius: 8px;
   border: none;
   outline: none;
-  background: #40414f;
-  color: white;
-  font-size: 15px;
-}
-/* MENSAGENS */
-.message {
-  max-width: 70%;
-  padding: 12px 16px;
-  border-radius: 12px;
-  margin-bottom: 16px;
-  line-height: 1.4;
-  font-size: 15px;
-}
-
-/* USUÁRIO (começa após o meio) */
-.message.user {
-  background: #40414f;
-  margin-left: 40%;
-  margin-right: 0;
-  align-self: flex-end;
-}
-
-/* IA (mais à esquerda) */
-.message.ai {
-  background: #444654;
-  margin-left: 0;
-  margin-right: 40%;
-  align-self: flex-start;
-}
-
-/* ÁREA DE MENSAGENS */
-.messages {
-  display: flex;
-  flex-direction: column;
-}
-/* indicador digitando */
-#typing {
-  font-style: italic;
-  opacity: 0.7;
+  font-size: 16px;
 }

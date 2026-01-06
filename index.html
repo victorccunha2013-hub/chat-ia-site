@@ -1,53 +1,37 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ChatScript</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<div class="container">
+  <div class="app">
+    <!-- coluna esquerda (vazia por enquanto) -->
+    <aside class="sidebar">
+      <h2>ChatScript</h2>
+    </aside>
 
-  <!-- COLUNA ESQUERDA -->
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <button class="new-chat">+ Novo chat</button>
-    </div>
+    <!-- área principal -->
+    <main class="chat-area">
+      <div id="chat-messages" class="messages">
+        <div class="message bot">
+          Olá! 👋 Sou o ChatScript. Como posso te ajudar?
+        </div>
+      </div>
 
-    <div class="chat-list">
-      <!-- chats futuros -->
-    </div>
-  </aside>
-
-  <!-- COLUNA DIREITA -->
-  <main class="chat-area">
-
-    <header class="topbar">
-      <span class="title">ChatScript</span>
-      <div class="user-circle"></div>
-    </header>
-
-   <div class="messages" id="messages">
-  <div class="message ai">
-    Olá! 👋 Sou o ChatScript. Como posso te ajudar?
+      <div class="input-area">
+        <input
+          type="text"
+          id="user-input"
+          placeholder="Digite sua mensagem..."
+          autocomplete="off"
+        />
+      </div>
+    </main>
   </div>
-</div>
 
-
-    <div class="input-area">
-      <input
-        id="chatInput"
-        type="text"
-        placeholder="Envie uma mensagem"
-        autocomplete="off"
-      />
-    </div>
-
-  </main>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
