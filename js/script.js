@@ -1,43 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("JS carregado com sucesso");
+  console.log("JS OK");
 
   const messages = document.getElementById("messages");
   const input = document.getElementById("user-input");
   const sendBtn = document.getElementById("send-btn");
 
-  if (!messages || !input || !sendBtn) {
-    console.error("Elementos não encontrados no DOM");
-    return;
+  function scrollBottom() {
+    messages.scrollTop = messages.scrollHeight;
   }
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-
-  sendBtn.addEventListener("click", sendMessage);
 
   function addUserMessage(text) {
     const div = document.createElement("div");
-    div.className = "message user";
+    div.className = "msg user";
     div.textContent = text;
     messages.appendChild(div);
-    messages.scrollTop = messages.scrollHeight;
+    scrollBottom();
   }
 
   function typeAIMessage(text) {
     const div = document.createElement("div");
-    div.className = "message ai";
+    div.className = "msg ai";
     messages.appendChild(div);
 
     let i = 0;
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
       div.textContent += text[i];
       i++;
-      messages.scrollTop = messages.scrollHeight;
-      if (i >= text.length) clearInterval(interval);
+      scrollBottom();
+      if (i >= text.length) clearInterval(timer);
     }, 20);
   }
 
@@ -58,7 +48,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
       typeAIMessage(data.reply);
     } catch {
-      typeAIMessage("⚠️ Erro ao conectar com o servidor.");
+      typeAIMessage("Erro ao conectar com o servidor.");
     }
   }
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  sendBtn.addEventListener("click", sendMessage);
 });

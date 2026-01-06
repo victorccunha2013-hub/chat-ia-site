@@ -1,46 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ChatScript</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- TOPO -->
-  <header class="top-bar">
-    <h1>ChatScript</h1>
-    <div id="user-icon"></div>
-  </header>
+<header class="top-bar">
+  <h1>ChatScript</h1>
+  <div class="user-circle"></div>
+</header>
 
-  <!-- CONTAINER PRINCIPAL -->
-  <div class="app">
+<div class="app">
+  <aside class="sidebar">
+    <p>Conversas</p>
+  </aside>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <p class="sidebar-title">Conversas</p>
-      <!-- vazio por enquanto -->
-    </aside>
+  <main class="chat">
+    <div id="messages"></div>
 
-    <!-- CHAT -->
-    <main class="chat">
-      <div id="messages"></div>
-
-      <div class="input-area">
-  <textarea
-    id="user-input"
-    placeholder="Digite sua mensagem..."
-    rows="2"
-  ></textarea>
-
-  <button id="send-btn" type="button">Enviar</button>
+    <div class="input-area">
+      <textarea
+        id="user-input"
+        placeholder="Digite sua mensagem..."
+      ></textarea>
+      <button id="send-btn" type="button">Enviar</button>
+    </div>
+  </main>
 </div>
 
-    </main>
-
-  </div>
-
 <script src="js/script.js"></script>
-
 </body>
 </html>
