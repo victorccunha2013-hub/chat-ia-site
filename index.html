@@ -3,27 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>ChatScript</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="sidebar">
-    <h2>ChatScript</h2>
-  </div>
+  <!-- TOPO -->
+  <header class="top-bar">
+    <h1>ChatScript</h1>
+    <div id="user-icon"></div>
+  </header>
 
-  <div class="chat">
-    <div id="messages" class="messages">
-      <div class="message bot">
-        Olá! 👋 Sou o ChatScript. Como posso te ajudar?
+  <!-- CONTAINER PRINCIPAL -->
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <p class="sidebar-title">Conversas</p>
+      <!-- vazio por enquanto -->
+    </aside>
+
+    <!-- CHAT -->
+    <main class="chat">
+      <div id="messages"></div>
+
+      <div class="input-area">
+        <textarea
+          id="user-input"
+          placeholder="Digite sua mensagem..."
+        ></textarea>
+        <button onclick="sendMessage()">Enviar</button>
       </div>
-    </div>
+    </main>
 
-    <div class="input-area">
-      <input id="input" placeholder="Digite sua mensagem..." />
-    </div>
   </div>
 
-  <!-- SCRIPT NO FINAL -->
-  <script src="js/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

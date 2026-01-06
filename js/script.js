@@ -1,58 +1,61 @@
-const input = document.getElementById("user-input");
 const messages = document.getElementById("messages");
+const input = document.getElementById("user-input");
 
-function addMessage(text, sender) {
+/* ENTER envia / SHIFT+ENTER quebra linha */
+input.addEventListener("keydown", function (e) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+/* Adiciona mensagem do usuário */
+function addUserMessage(text) {
   const div = document.createElement("div");
-  div.className = `message ${sender}`;
+  div.className = "message user";
   div.textContent = text;
   messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
+  scrollBottom();
 }
 
-function addBotMessageAnimated(text) {
+/* Adiciona mensagem da IA com animação */
+function typeAIMessage(text) {
   const div = document.createElement("div");
-  div.className = "message bot";
+  div.className = "message ai";
   messages.appendChild(div);
 
   let i = 0;
   const interval = setInterval(() => {
-    div.textContent += text.charAt(i);
+    div.textContent += text[i];
     i++;
-    messages.scrollTop = messages.scrollHeight;
+    scrollBottom();
     if (i >= text.length) clearInterval(interval);
-  }, 30);
+  }, 20);
 }
 
+/* Scroll automático */
+function scrollBottom() {
+  messages.scrollTop = messages.scrollHeight;
+}
+
+/* Envio da mensagem */
 async function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
 
-  addMessage(text, "user");
+  addUserMessage(text);
   input.value = "";
 
   try {
-    const response = await fetch("/chat", {
+    const res = await fetch("/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: text })
     });
 
-    const data = await response.json();
-
-    const reply =
-      data.reply ||
-      "🤖 Ainda estou aprendendo... Em breve responderei melhor!";
-
-    addBotMessageAnimated(reply);
-
-  } catch (error) {
-    console.error(error);
-    addBotMessageAnimated(
-      "⚠️ Não consegui me conectar ao servidor."
-    );
+    const data = await res.json();
+    typeAIMessage(data.reply);
+  } catch (err) {
+    typeAIMessage("⚠️ Erro ao conectar com o servidor.");
   }
 }
-
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") sendMessage();
-});
