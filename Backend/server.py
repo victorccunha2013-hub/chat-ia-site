@@ -1,76 +1,35 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from dotenv import load_dotenv
 import os
-from openai import OpenAI
 
-# ======================================
-# CARREGA VARIÁVEIS DO .env
-# ======================================
-load_dotenv()
-
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-if not OPENAI_API_KEY:
-    raise RuntimeError("❌ OPENAI_API_KEY não encontrada. Verifique o arquivo .env")
-
-# ======================================
-# INICIALIZA APP
-# ======================================
 app = Flask(__name__)
 CORS(app)
 
-client = OpenAI(api_key=OPENAI_API_KEY)
+# rota de teste (health)
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "ok"})
 
-print("✅ OPENAI_API_KEY carregada")
-print("🚀 Backend ChatScript iniciando...")
-
-# ======================================
-# ROTA PRINCIPAL DE CHAT
-# ======================================
+# rota do chat
 @app.route("/chat", methods=["POST"])
 def chat():
-    try:
-        data = request.get_json()
-        user_message = data.get("message")
+    data = request.get_json()
 
-        if not user_message:
-            return jsonify({"error": "Mensagem vazia"}), 400
+    if not data or "message" not in data:
+        return jsonify({"reply": "Mensagem inválida."})
 
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "Você é o ChatScript, um assistente inteligente, amigável e responde sempre em português."
-                },
-                {
-                    "role": "user",
-                    "content": user_message
-                }
-            ],
-            temperature=0.7
-        )
+    user_message = data["message"].lower()
 
-        reply = response.choices[0].message.content
+    # IA SIMPLES (temporária, mas FUNCIONA)
+    if "oi" in user_message:
+        reply = "Olá! 👋 Como posso te ajudar?"
+    elif "tudo bem" in user_message:
+        reply = "Tudo ótimo 😄 E você?"
+    else:
+        reply = "Ainda estou aprendendo 🤖. Em breve responderei melhor!"
 
-        return jsonify({"reply": reply})
-
-    except Exception as e:
-        print("❌ ERRO:", e)
-        return jsonify({"error": "Erro ao gerar resposta da IA"}), 500
+    return jsonify({"reply": reply})
 
 
-# ======================================
-# ROTA DE TESTE (OPCIONAL)
-# ======================================
-@app.route("/", methods=["GET"])
-def health():
-    return jsonify({"status": "ChatScript backend online 🚀"})
-
-
-# ======================================
-# START
-# ======================================
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)
