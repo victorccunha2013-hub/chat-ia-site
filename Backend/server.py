@@ -1,38 +1,22 @@
-import os
 from flask import Flask, request, jsonify
-from openai import OpenAI
+from flask_cors import CORS
+import os
 
 app = Flask(__name__)
+CORS(app)
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
+@app.route("/")
+def home():
+    return "ChatScript backend rodando 🚀"
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    data = request.get_json()
+    data = request.json
     message = data.get("message", "")
-
-    if not message:
-        return jsonify({"reply": "Mensagem vazia."})
-
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "Você é o ChatScript. "
-                    "Se perguntarem quem te criou, responda: Victor Carvalho Cunha."
-                )
-            },
-            {"role": "user", "content": message}
-        ]
-    )
-
     return jsonify({
-        "reply": response.choices[0].message.content
+        "reply": f"Você disse: {message}"
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
