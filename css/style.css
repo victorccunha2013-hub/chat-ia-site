@@ -1,21 +1,11 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
 body {
+  margin: 0;
   background: #343541;
   height: 100vh;
-}
-
-.app {
+  font-family: Arial, sans-serif;
   display: flex;
-  height: 100vh;
 }
 
-/* coluna esquerda */
 .sidebar {
   width: 260px;
   background: #202123;
@@ -23,14 +13,12 @@ body {
   padding: 20px;
 }
 
-/* área do chat */
-.chat-area {
+.chat {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-/* mensagens */
 .messages {
   flex: 1;
   padding: 20px;
@@ -41,34 +29,32 @@ body {
 
 .message {
   max-width: 60%;
-  padding: 12px 14px;
+  padding: 12px;
   border-radius: 12px;
-  margin-bottom: 12px;
-  line-height: 1.4;
+  margin-bottom: 10px;
   color: white;
 }
 
-.message.user {
+.user {
   align-self: flex-end;
   background: #6d5dfc;
 }
 
-.message.bot {
+.bot {
   align-self: flex-start;
   background: #444654;
 }
 
-/* input */
 .input-area {
   padding: 15px;
   border-top: 1px solid #555;
 }
 
-.input-area input {
+input {
   width: 100%;
   padding: 14px;
   border-radius: 8px;
   border: none;
-  outline: none;
   font-size: 16px;
+  outline: none;
 }
