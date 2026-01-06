@@ -1,15 +1,19 @@
 const messages = document.getElementById("messages");
 const input = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
 
 /* ENTER envia / SHIFT+ENTER quebra linha */
-input.addEventListener("keydown", function (e) {
+input.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
     sendMessage();
   }
 });
 
-/* Adiciona mensagem do usuário */
+/* Clique no botão */
+sendBtn.addEventListener("click", sendMessage);
+
+/* Mensagem do usuário */
 function addUserMessage(text) {
   const div = document.createElement("div");
   div.className = "message user";
@@ -18,7 +22,7 @@ function addUserMessage(text) {
   scrollBottom();
 }
 
-/* Adiciona mensagem da IA com animação */
+/* Mensagem da IA com animação */
 function typeAIMessage(text) {
   const div = document.createElement("div");
   div.className = "message ai";
@@ -38,7 +42,7 @@ function scrollBottom() {
   messages.scrollTop = messages.scrollHeight;
 }
 
-/* Envio da mensagem */
+/* Envio */
 async function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
@@ -55,7 +59,7 @@ async function sendMessage() {
 
     const data = await res.json();
     typeAIMessage(data.reply);
-  } catch (err) {
+  } catch {
     typeAIMessage("⚠️ Erro ao conectar com o servidor.");
   }
 }
