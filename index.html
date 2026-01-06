@@ -1,31 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>ChatScript</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<header class="top-bar">
-  <h1>ChatScript</h1>
-  <div class="user-circle"></div>
-</header>
-
 <div class="app">
-  <aside class="sidebar">
-    <p>Conversas</p>
-  </aside>
+  <aside class="sidebar"></aside>
 
   <main class="chat">
+    <header class="topbar">
+      <h1>ChatScript</h1>
+    </header>
+
     <div id="messages"></div>
 
     <div class="input-area">
-      <textarea
-        id="user-input"
+      <input
+        id="input"
+        type="text"
         placeholder="Digite sua mensagem..."
-      ></textarea>
-      <button id="send-btn" type="button">Enviar</button>
+        autocomplete="off"
+      >
     </div>
   </main>
 </div>

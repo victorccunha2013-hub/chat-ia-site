@@ -1,63 +1,42 @@
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("JS OK");
+const input = document.getElementById("input");
+const messages = document.getElementById("messages");
 
-  const messages = document.getElementById("messages");
-  const input = document.getElementById("user-input");
-  const sendBtn = document.getElementById("send-btn");
-
-  function scrollBottom() {
-    messages.scrollTop = messages.scrollHeight;
-  }
-
-  function addUserMessage(text) {
-    const div = document.createElement("div");
-    div.className = "msg user";
-    div.textContent = text;
-    messages.appendChild(div);
-    scrollBottom();
-  }
-
-  function typeAIMessage(text) {
-    const div = document.createElement("div");
-    div.className = "msg ai";
-    messages.appendChild(div);
-
-    let i = 0;
-    const timer = setInterval(() => {
-      div.textContent += text[i];
-      i++;
-      scrollBottom();
-      if (i >= text.length) clearInterval(timer);
-    }, 20);
-  }
-
-  async function sendMessage() {
-    const text = input.value.trim();
-    if (!text) return;
-
-    addUserMessage(text);
+input.addEventListener("keydown", async (e) => {
+  if (e.key === "Enter" && input.value.trim() !== "") {
+    const text = input.value;
     input.value = "";
 
-    try {
-      const res = await fetch("/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text })
-      });
+    addMessage(text, "user");
 
-      const data = await res.json();
-      typeAIMessage(data.reply);
-    } catch {
-      typeAIMessage("Erro ao conectar com o servidor.");
-    }
+    const res = await fetch("https://chatbr.onrender.com/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text })
+    });
+
+    const data = await res.json();
+    typeBotMessage(data.reply);
   }
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-
-  sendBtn.addEventListener("click", sendMessage);
 });
+
+function addMessage(text, sender) {
+  const div = document.createElement("div");
+  div.className = `message ${sender}`;
+  div.textContent = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function typeBotMessage(text) {
+  const div = document.createElement("div");
+  div.className = "message bot";
+  messages.appendChild(div);
+
+  let i = 0;
+  const interval = setInterval(() => {
+    div.textContent += text[i];
+    i++;
+    messages.scrollTop = messages.scrollHeight;
+    if (i >= text.length) clearInterval(interval);
+  }, 20);
+}
