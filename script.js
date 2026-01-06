@@ -1,64 +1,57 @@
-const input = document.getElementById("chatInput");
-const messages = document.getElementById("messages");
+const chatMessages = document.getElementById("chat-messages");
+const input = document.getElementById("user-input");
 
-input.addEventListener("keydown", async (e) => {
-  if (e.key === "Enter" && input.value.trim()) {
-    const userText = input.value.trim();
-    addMessage(userText, "user");
-    input.value = "";
+function addMessage(text, sender) {
+  const msg = document.createElement("div");
+  msg.classList.add("message", sender);
+  msg.textContent = text;
+  chatMessages.appendChild(msg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  return msg;
+}
 
-    showTypingIndicator();
+async function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
 
-    try {
-      const res = await fetch("https://chatbr.onrender.com/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message: userText })
-      });
+  // Mensagem do usuário
+  addMessage(text, "user");
+  input.value = "";
 
-      const data = await res.json();
-      removeTypingIndicator();
-      typeAIMessage(data.reply);
-    } catch (err) {
-      removeTypingIndicator();
-      typeAIMessage("Erro ao conectar com a IA 😢");
+  // Indicador de digitação
+  const typing = document.createElement("div");
+  typing.classList.add("message", "bot");
+  typing.textContent = "Digitando...";
+  chatMessages.appendChild(typing);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  try {
+    const response = await fetch("https://chatbr.onrender.com/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: text })
+    });
+
+    const data = await response.json();
+
+    typing.remove();
+
+    if (data.reply) {
+      addMessage(data.reply, "bot");
+    } else {
+      addMessage("Erro: resposta inválida da IA.", "bot");
     }
+
+  } catch (error) {
+    typing.remove();
+    addMessage("Erro ao conectar com o servidor.", "bot");
+  }
+}
+
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    sendMessage();
   }
 });
-
-function addMessage(text, type) {
-  const msg = document.createElement("div");
-  msg.className = `message ${type}`;
-  msg.textContent = text;
-  messages.appendChild(msg);
-  messages.scrollTop = messages.scrollHeight;
-}
-
-function showTypingIndicator() {
-  const typing = document.createElement("div");
-  typing.id = "typing";
-  typing.className = "message ai";
-  typing.textContent = "Digitando...";
-  messages.appendChild(typing);
-}
-
-function removeTypingIndicator() {
-  const typing = document.getElementById("typing");
-  if (typing) typing.remove();
-}
-
-function typeAIMessage(text) {
-  const msg = document.createElement("div");
-  msg.className = "message ai";
-  messages.appendChild(msg);
-
-  let i = 0;
-  const interval = setInterval(() => {
-    msg.textContent += text.charAt(i);
-    i++;
-    messages.scrollTop = messages.scrollHeight;
-    if (i >= text.length) clearInterval(interval);
-  }, 25);
-}
