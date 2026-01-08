@@ -1,50 +1,37 @@
-const API = "https://chatbr.onrender.com";
+const form = document.getElementById("chat-form");
+const input = document.getElementById("input");
+const messages = document.getElementById("messages");
 
-function login() {
-  fetch(API + "/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: email.value,
-      password: password.value
-    })
-  })
-  .then(r => r.json())
-  .then(data => {
-    if (data.success) {
-      localStorage.setItem("user", data.email);
-      loginModal.style.display = "none";
-    } else alert("Erro no login");
-  });
-}
+// 🔴 COLOQUE SUA URL DO RENDER AQUI
+const API = "https://SEU_BACKEND.onrender.com";
 
-function register() {
-  fetch(API + "/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: email.value,
-      password: password.value
-    })
-  })
-  .then(r => r.json())
-  .then(data => {
-    if (data.success) alert("Conta criada!");
-    else alert(data.error);
-  });
-}
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-function sendMessage() {
-  const text = userInput.value;
-  if (!text) return;
+    const text = input.value.trim();
+    if (!text) return;
 
-  fetch(API + "/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
-  })
-  .then(r => r.json())
-  .then(data => {
-    messages.innerHTML += `<div>${data.reply}</div>`;
-  });
+    addMessage(text, "user");
+    input.value = "";
+
+    try {
+        const res = await fetch(`${API}/chat`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: text })
+        });
+
+        const data = await res.json();
+        addMessage(data.reply, "ai");
+    } catch {
+        addMessage("Erro ao conectar com o servidor", "ai");
+    }
+});
+
+function addMessage(text, type) {
+    const div = document.createElement("div");
+    div.className = `msg ${type}`;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
 }

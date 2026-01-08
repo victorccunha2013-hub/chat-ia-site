@@ -1,32 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>ChatScript</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <title>ChatScript</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<div id="loginModal" class="modal">
-  <div class="modal-box">
-    <h2>Login</h2>
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Senha">
-    <button onclick="login()">Entrar</button>
-    <p onclick="register()">Criar conta</p>
-  </div>
-</div>
-
 <div class="app">
-  <aside class="sidebar"></aside>
-  <main class="chat">
-    <header class="topbar">ChatScript</header>
-    <div id="messages"></div>
-    <div class="input-area">
-      <input id="userInput" placeholder="Digite sua mensagem...">
-      <button onclick="sendMessage()">Enviar</button>
-    </div>
-  </main>
+    <aside class="sidebar"></aside>
+
+    <main class="chat">
+        <div id="messages"></div>
+
+        <form id="chat-form">
+            <input id="input" placeholder="Digite sua mensagem..." autocomplete="off">
+            <button>Enviar</button>
+        </form>
+    </main>
 </div>
 
 <script src="js/script.js"></script>
