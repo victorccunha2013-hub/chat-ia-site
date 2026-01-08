@@ -2,41 +2,46 @@ const API_URL = "https://chatbr.onrender.com/chat";
 
 const input = document.getElementById("userInput");
 const messages = document.getElementById("messages");
+const sendBtn = document.getElementById("sendBtn");
 
-input.addEventListener("keydown", (e) => {
+sendBtn.addEventListener("click", sendMessage);
+input.addEventListener("keydown", e => {
   if (e.key === "Enter") sendMessage();
 });
 
-function addMessage(text, className) {
+function createMessage(className) {
   const div = document.createElement("div");
   div.className = "message " + className;
-  div.textContent = text;
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
   return div;
 }
 
-function typeWriter(element, text, speed = 20) {
-  element.textContent = "";
+function typeWriter(element, text, speed = 25) {
   let i = 0;
+  element.textContent = "";
 
-  const interval = setInterval(() => {
-    element.textContent += text.charAt(i);
-    i++;
-    messages.scrollTop = messages.scrollHeight;
-
-    if (i >= text.length) clearInterval(interval);
-  }, speed);
+  function typing() {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+      messages.scrollTop = messages.scrollHeight;
+      setTimeout(typing, speed);
+    }
+  }
+  typing();
 }
 
 async function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
 
-  addMessage(text, "user");
+  const userDiv = createMessage("user");
+  userDiv.textContent = text;
   input.value = "";
 
-  const botDiv = addMessage("...", "bot");
+  const botDiv = createMessage("bot");
+  botDiv.textContent = "Digitando...";
 
   try {
     const response = await fetch(API_URL, {
