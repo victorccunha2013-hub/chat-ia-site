@@ -1,50 +1,43 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChatScript</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
+  <meta charset="UTF-8" />
+  <title>ChatScript</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="css/style.css" />
+</head>
 <body>
 
-<header>
-  <h1>ChatScript</h1>
-<div class="avatar-container">
-  <div class="avatar">
-    <div class="eye left"></div>
-    <div class="eye right"></div>
+  <!-- TOPO -->
+  <div class="top-bar">
+    <div class="logo">ChatScript</div>
+
+    <div class="avatar-svg" id="avatar">
+      <svg width="40" height="40" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="48" fill="#bdbdbd"/>
+        <ellipse class="eye" cx="35" cy="40" rx="6" ry="6"/>
+        <ellipse class="eye" cx="65" cy="40" rx="6" ry="6"/>
+      </svg>
+    </div>
   </div>
-</div>
 
-  <div id="userIcon" class="user-icon">
-    <svg viewBox="0 0 24 24">
-      <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6z"/>
-    </svg>
+  <!-- CHAT -->
+  <div class="chat-container">
+    <div id="chat-messages"></div>
   </div>
-</header>
 
-<main id="chat"></main>
-
-<footer>
-  <input id="input" placeholder="Digite sua mensagem..." autocomplete="off">
-</footer>
-
-<!-- MODAL LOGIN -->
-<div id="modal" class="modal">
-  <div class="modal-box">
-    <button class="close-btn" onclick="closeModal()">✕</button>
-    <h2 id="modalTitle">Login</h2>
-
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Senha">
-
-    <button onclick="submit()">Entrar</button>
-    <small onclick="toggleMode()">Não tem conta? Crie aqui</small>
+  <!-- INPUT -->
+  <div class="input-container">
+    <input
+      id="user-input"
+      type="text"
+      placeholder="Digite sua mensagem..."
+      autocomplete="off"
+    />
+    <button id="send-btn">Enviar</button>
   </div>
-</div>
 
-<script src="js/script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>

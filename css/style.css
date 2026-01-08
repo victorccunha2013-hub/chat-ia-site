@@ -1,293 +1,125 @@
-:root {
-  --bg: #0f0f0f;
-  --panel: #1e1e1e;
-  --user: #2a7fff;
-  --bot: #2a2a2a;
-  --header: #6b2cff;
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg: #f4f4f4;
-    --panel: #ffffff;
-    --bot: #eaeaea;
+/* MODO ESCURO AUTOMÁTICO */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #0e0e0e;
+    color: #eaeaea;
   }
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: var(--bg);
+/* TOPO */
+.top-bar {
+  height: 56px;
+  background: #0f0f0f;
   color: white;
-  font-family: Arial, sans-serif;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* HEADER */
-header {
-  height: 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
-  border-bottom: 1px solid #2a2a2a;
+  padding: 0 16px;
+  border-bottom: 1px solid #1f1f1f;
 }
 
-.user-avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #aaa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.user-avatar svg {
-  width: 20px;
-  height: 20px;
-  fill: #666;
-}
-
-
-header h1 {
+.logo {
   font-size: 18px;
-  margin: 0;
+  font-weight: 600;
 }
 
-/* USER ICON */
-.user-icon {
-  width: 36px;
-  height: 36px;
-  background: #9a9a9a;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* AVATAR */
+.avatar-svg svg {
   cursor: pointer;
 }
 
-.user-icon svg {
-  width: 18px;
-  fill: #555;
+.eye {
+  fill: #5a5a5a;
+  transform-origin: center;
+  animation: blink 5s infinite;
 }
 
-/* CHAT AREA */
-main {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* MESSAGES */
-.msg {
-  max-width: 75%;
-  padding: 12px 14px;
-  border-radius: 14px;
-  word-wrap: break-word;
-  line-height: 1.4;
-  font-size: 15px;
-}
-
-.user {
-  background: var(--user);
-  align-self: flex-end;
-}
-
-.bot {
-  background: var(--bot);
-  align-self: flex-start;
-}
-
-/* INPUT */
-footer {
-  padding: 12px;
-  background: var(--bg);
-  flex-shrink: 0;
-}
-
-footer input {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 18px;
-  border: none;
-  outline: none;
-  font-size: 16px;
-}
-
-/* MODAL */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.6);
-  backdrop-filter: blur(6px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.modal-box {
-  background: var(--panel);
-  width: 90%;
-  max-width: 360px;
-  padding: 28px;
-  border-radius: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  position: relative;
-}
-
-.modal-box h2 {
-  margin: 0;
-  text-align: center;
-}
-
-.modal-box input {
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  font-size: 15px;
-}
-
-.modal-box button {
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  background: var(--header);
-  color: white;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.modal-box small {
-  text-align: center;
-  cursor: pointer;
-  opacity: 0.8;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: #aaa;
-  cursor: pointer;
-}
-
-/* MOBILE AJUSTES */
-@media (max-width: 600px) {
-  header h1 {
-    font-size: 16px;
-  }
-
-  .msg {
-    max-width: 85%;
-    font-size: 16px;
-  }
-
-  footer input {
-    font-size: 17px;
-  }
-}
-#input-area {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px;
-  border-top: 1px solid #2a2a2a;
-  background: inherit;
-}
-
-#user-input {
-  flex: 1;
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: none;
-  outline: none;
-  background: #2a2a2a;
-  color: white;
-  font-size: 15px;
-}
-#chat {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
-}
-.message {
-  max-width: 85%;
-  padding: 10px 14px;
-  margin: 6px 0;
-  border-radius: 12px;
-  line-height: 1.4;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-}
-@media (max-width: 600px) {
-  #input-area {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
-.typing {
-  font-size: 13px;
-  color: #aaa;
-  margin: 6px 0 0 10px;
-  font-style: italic;
-  animation: blink 1.4s infinite both;
+.avatar-thinking .eye {
+  animation: blink-fast 1s infinite;
 }
 
 @keyframes blink {
-  0% { opacity: .2; }
-  20% { opacity: 1; }
-  100% { opacity: .2; }
+  0%, 95%, 100% { transform: scaleY(1); }
+  96%, 99% { transform: scaleY(0.1); }
 }
-.avatar-container {
+
+@keyframes blink-fast {
+  0%, 90%, 100% { transform: scaleY(1); }
+  91%, 99% { transform: scaleY(0.1); }
+}
+
+/* CHAT */
+.chat-container {
+  height: calc(100vh - 112px);
+  padding: 16px;
+  overflow-y: auto;
+}
+
+#chat-messages {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.avatar {
-  width: 42px;
-  height: 42px;
-  background: #bdbdbd;
-  border-radius: 50%;
-  position: relative;
+/* MENSAGENS */
+.message {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  line-height: 1.4;
 }
 
-/* Olhos */
-.eye {
-  width: 6px;
-  height: 6px;
-  background: #5a5a5a;
-  border-radius: 50%;
-  position: absolute;
-  top: 14px;
-  transition: height 0.15s;
+.message.user {
+  background: #3a7afe;
+  color: white;
+  align-self: flex-end;
 }
 
-.eye.left {
-  left: 12px;
+.message.ai {
+  background: #1f1f1f;
+  color: #eaeaea;
+  align-self: flex-start;
 }
 
-.eye.right {
-  right: 12px;
+.message.typing {
+  font-style: italic;
+  opacity: 0.7;
 }
 
-/* Olhos fechados */
-.avatar.blink .eye {
-  height: 1px;
-  margin-top: 3px;
+/* INPUT */
+.input-container {
+  display: flex;
+  padding: 12px;
+  gap: 8px;
+  border-top: 1px solid #1f1f1f;
+  background: #0f0f0f;
+}
+
+.input-container input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: #1f1f1f;
+  color: white;
+}
+
+.input-container button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #3a7afe;
+  color: white;
 }
