@@ -2,10 +2,13 @@ const API = "https://chatbr.onrender.com";
 
 const input = document.getElementById("userInput");
 const messages = document.getElementById("messages");
+
 const modal = document.getElementById("loginModal");
 const userIcon = document.getElementById("userIcon");
+const closeModal = document.getElementById("closeModal");
 
 userIcon.onclick = () => modal.classList.remove("hidden");
+closeModal.onclick = () => modal.classList.add("hidden");
 
 input.addEventListener("keydown", async (e) => {
     if (e.key !== "Enter") return;
