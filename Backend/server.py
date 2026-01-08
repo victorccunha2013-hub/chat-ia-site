@@ -6,11 +6,13 @@ from openai import OpenAI
 app = Flask(__name__)
 CORS(app)
 
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 
 @app.route("/")
 def home():
     return "ChatScript backend rodando 🚀"
+
 
 @app.route("/chat", methods=["POST"])
 def chat():
@@ -29,13 +31,10 @@ def chat():
                     "content": (
                         "Você é a IA ChatScript. "
                         "Você foi criada por Victor Carvalho Cunha. "
-                        "Se perguntarem quem te criou, responda isso."
+                        "Sempre que perguntarem quem te criou, responda isso."
                     )
                 },
-                {
-                    "role": "user",
-                    "content": user_message
-                }
+                {"role": "user", "content": user_message}
             ]
         )
 
@@ -43,7 +42,8 @@ def chat():
         return jsonify({"reply": reply})
 
     except Exception as e:
-        return jsonify({"reply": "⚠️ Erro ao conectar com a IA"}), 500
+        print("ERRO:", e)
+        return jsonify({"reply": "Erro ao conectar com a IA"}), 500
 
 
 if __name__ == "__main__":
