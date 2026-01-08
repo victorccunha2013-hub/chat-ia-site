@@ -1,4 +1,5 @@
 const API = "https://chatbr.onrender.com";
+let isRegister = false;
 
 function handleKey(e) {
   if (e.key === "Enter" && !e.shiftKey) {
@@ -15,6 +16,8 @@ async function sendMessage() {
   addMessage(text, "user");
   input.value = "";
 
+  const botMsg = addMessage("", "bot");
+
   try {
     const res = await fetch(API + "/chat", {
       method: "POST",
@@ -23,9 +26,9 @@ async function sendMessage() {
     });
 
     const data = await res.json();
-    addMessage(data.reply, "bot");
+    typeWriter(botMsg, data.reply);
   } catch {
-    addMessage("Erro ao conectar com o servidor.", "bot");
+    typeWriter(botMsg, "Erro ao conectar com o servidor.");
   }
 }
 
@@ -35,12 +38,30 @@ function addMessage(text, type) {
   msg.innerText = text;
   document.getElementById("messages").appendChild(msg);
   msg.scrollIntoView();
+  return msg;
 }
 
-/* LOGIN (mantém) */
+/* ANIMAÇÃO DIGITANDO */
+function typeWriter(element, text, i = 0) {
+  if (i < text.length) {
+    element.innerText += text.charAt(i);
+    setTimeout(() => typeWriter(element, text, i + 1), 20);
+  }
+}
+
+/* LOGIN MODAL */
 function openModal() {
   document.getElementById("modal").style.display = "block";
 }
 function closeModal() {
   document.getElementById("modal").style.display = "none";
+}
+function toggleMode() {
+  isRegister = !isRegister;
+  document.getElementById("modalTitle").innerText =
+    isRegister ? "Criar conta" : "Entrar";
+  document.getElementById("toggle").innerHTML =
+    isRegister
+      ? "Já tem conta? <span>Entrar</span>"
+      : "Não tem uma conta? <span>Criar agora</span>";
 }

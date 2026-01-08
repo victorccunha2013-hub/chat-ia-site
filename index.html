@@ -31,15 +31,21 @@
   </main>
 </div>
 
-<!-- MODAL LOGIN (mantém o que já tem) -->
+<!-- MODAL LOGIN -->
 <div id="modal" class="modal">
   <div class="modal-box">
     <span class="close" onclick="closeModal()">×</span>
+
     <h2 id="modalTitle">Entrar</h2>
+
     <input id="email" placeholder="Email" />
     <input id="password" type="password" placeholder="Senha" />
+
     <button onclick="submitAuth()">Continuar</button>
-    <p id="toggle" onclick="toggleMode()">Não tem conta? Crie aqui</p>
+
+    <p id="toggle" onclick="toggleMode()">
+      Não tem uma conta? <span>Criar agora</span>
+    </p>
   </div>
 </div>
 
