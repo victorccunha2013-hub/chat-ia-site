@@ -1,12 +1,14 @@
-const form = document.getElementById("chat-form");
-const input = document.getElementById("input");
+const API = "https://chatbr.onrender.com";
+
+const input = document.getElementById("userInput");
 const messages = document.getElementById("messages");
+const modal = document.getElementById("loginModal");
+const userIcon = document.getElementById("userIcon");
 
-// 🔴 COLOQUE SUA URL DO RENDER AQUI
-const API = "https://SEU_BACKEND.onrender.com";
+userIcon.onclick = () => modal.classList.remove("hidden");
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+input.addEventListener("keydown", async (e) => {
+    if (e.key !== "Enter") return;
 
     const text = input.value.trim();
     if (!text) return;
@@ -22,9 +24,9 @@ form.addEventListener("submit", async (e) => {
         });
 
         const data = await res.json();
-        addMessage(data.reply, "ai");
+        typeBot(data.reply);
     } catch {
-        addMessage("Erro ao conectar com o servidor", "ai");
+        addMessage("⚠️ Erro ao conectar com o servidor.", "bot");
     }
 });
 
@@ -34,4 +36,18 @@ function addMessage(text, type) {
     div.textContent = text;
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
+}
+
+function typeBot(text) {
+    const div = document.createElement("div");
+    div.className = "msg bot";
+    messages.appendChild(div);
+
+    let i = 0;
+    const interval = setInterval(() => {
+        div.textContent += text[i];
+        i++;
+        messages.scrollTop = messages.scrollHeight;
+        if (i >= text.length) clearInterval(interval);
+    }, 20);
 }

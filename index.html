@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>ChatScript</title>
@@ -7,17 +7,40 @@
 </head>
 <body>
 
-<div class="app">
+<!-- TOPO -->
+<header class="topbar">
+    <span class="logo">ChatScript</span>
+    <div id="userIcon" class="user-circle"></div>
+</header>
+
+<!-- LAYOUT -->
+<div class="container">
     <aside class="sidebar"></aside>
 
     <main class="chat">
-        <div id="messages"></div>
+        <div id="messages" class="messages"></div>
 
-        <form id="chat-form">
-            <input id="input" placeholder="Digite sua mensagem..." autocomplete="off">
-            <button>Enviar</button>
-        </form>
+        <div class="input-area">
+            <input id="userInput" placeholder="Digite sua mensagem..." />
+        </div>
     </main>
+</div>
+
+<!-- MODAL LOGIN (INVISÍVEL AO INICIAR) -->
+<div id="loginModal" class="modal hidden">
+    <div class="modal-box">
+        <h2>Entrar</h2>
+
+        <input id="email" type="email" placeholder="Email">
+        <input id="password" type="password" placeholder="Senha">
+
+        <button id="loginBtn">Entrar</button>
+
+        <p class="switch">
+            Não tem conta?
+            <span id="goRegister">Crie aqui</span>
+        </p>
+    </div>
 </div>
 
 <script src="js/script.js"></script>

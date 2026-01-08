@@ -1,25 +1,61 @@
 :root {
     --bg: #0f172a;
     --panel: #020617;
-    --user: #2563eb;
-    --ai: #1e293b;
     --text: #e5e7eb;
+    --accent: #7c3aed;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg: #f9fafb;
+        --panel: #ffffff;
+        --text: #111827;
+    }
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
-}
-
-.app {
-    display: flex;
     height: 100vh;
 }
 
+/* TOPO */
+.topbar {
+    height: 55px;
+    background: var(--panel);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.logo {
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.user-circle {
+    width: 36px;
+    height: 36px;
+    background: gray;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* LAYOUT */
+.container {
+    display: flex;
+    height: calc(100vh - 55px);
+}
+
 .sidebar {
-    width: 260px;
+    width: 240px;
     background: var(--panel);
 }
 
@@ -29,7 +65,8 @@ body {
     flex-direction: column;
 }
 
-#messages {
+/* MENSAGENS */
+.messages {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
@@ -43,29 +80,68 @@ body {
 }
 
 .user {
-    background: var(--user);
+    background: var(--accent);
+    color: white;
     margin-left: auto;
 }
 
-.ai {
-    background: var(--ai);
-    margin-right: auto;
+.bot {
+    background: #1f2933;
 }
 
-form {
-    display: flex;
-    padding: 10px;
-    background: var(--panel);
+/* INPUT */
+.input-area {
+    padding: 15px;
 }
 
 input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 6px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
     border: none;
+    outline: none;
 }
 
-button {
-    margin-left: 10px;
-    padding: 10px 15px;
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-box {
+    background: var(--panel);
+    padding: 25px;
+    width: 320px;
+    border-radius: 12px;
+}
+
+.modal-box input {
+    margin-bottom: 10px;
+}
+
+.modal-box button {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+
+.switch {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.switch span {
+    color: var(--accent);
+    cursor: pointer;
 }
