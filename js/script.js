@@ -58,3 +58,32 @@ function typeMessage(text) {
     if (i >= text.length) clearInterval(interval);
   }, 20);
 }
+function showTyping() {
+  const chat = document.getElementById("chat");
+
+  if (document.getElementById("typing")) return;
+
+  const typing = document.createElement("div");
+  typing.id = "typing";
+  typing.className = "typing";
+  typing.innerText = "ChatScript está digitando...";
+
+  chat.appendChild(typing);
+  chat.scrollTop = chat.scrollHeight;
+}
+showTyping();
+
+fetch("https://chatbr.onrender.com/chat", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ message: userMessage })
+})
+.then(res => res.json())
+.then(data => {
+  hideTyping();
+  addMessage("bot", data.reply);
+})
+.catch(() => {
+  hideTyping();
+  addMessage("bot", "⚠️ Erro ao conectar com o servidor.");
+});
