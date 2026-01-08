@@ -8,14 +8,19 @@ input.addEventListener("keydown", async (e) => {
 
     addMessage(text, "user");
 
-    const res = await fetch("https://chatbr.onrender.com/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text })
-    });
+    try {
+      const res = await fetch("https://chatbr.onrender.com/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text })
+      });
 
-    const data = await res.json();
-    typeBotMessage(data.reply);
+      const data = await res.json();
+      typeBotMessage(data.reply);
+
+    } catch (err) {
+      addMessage("⚠️ Erro ao conectar com o servidor.", "bot");
+    }
   }
 });
 
