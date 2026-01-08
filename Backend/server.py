@@ -3,7 +3,7 @@ from flask_cors import CORS
 import sqlite3
 import os
 from openai import OpenAI
-from utils import hash_password, verify_password
+from utils import hash_password, verify_password, send_confirmation_email, generate_token
 
 app = Flask(__name__)
 CORS(app)
@@ -11,7 +11,6 @@ CORS(app)
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 DB = "db.sqlite"
 
-# ---------- DB ----------
 def get_db():
     return sqlite3.connect(DB)
 
@@ -21,7 +20,9 @@ def init_db():
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT UNIQUE,
-            password TEXT
+            password TEXT,
+            confirmed INTEGER DEFAULT 0,
+            token TEXT
         )
     """)
     db.commit()
@@ -29,7 +30,6 @@ def init_db():
 
 init_db()
 
-# ---------- ROTAS ----------
 @app.route("/")
 def home():
     return "ChatScript backend rodando 🚀"
@@ -40,21 +40,36 @@ def register():
     email = data.get("email")
     password = data.get("password")
 
-    if not email or not password:
-        return jsonify({"error": "Dados inválidos"}), 400
+    token = generate_token()
 
     try:
         db = get_db()
         db.execute(
-            "INSERT INTO users (email, password) VALUES (?, ?)",
-            (email, hash_password(password))
+            "INSERT INTO users (email, password, token) VALUES (?, ?, ?)",
+            (email, hash_password(password), token)
         )
         db.commit()
-        return jsonify({"message": "Conta criada com sucesso"})
+        send_confirmation_email(email, token)
+        return jsonify({"message": "Conta criada! Verifique seu email."})
     except sqlite3.IntegrityError:
         return jsonify({"error": "Email já registrado"}), 400
     finally:
         db.close()
+
+@app.route("/confirm/<token>")
+def confirm(token):
+    db = get_db()
+    cur = db.execute(
+        "UPDATE users SET confirmed = 1, token = NULL WHERE token = ?",
+        (token,)
+    )
+    db.commit()
+    db.close()
+
+    if cur.rowcount == 0:
+        return "Link inválido ou expirado"
+
+    return "Conta confirmada com sucesso! Você já pode voltar ao site."
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -64,15 +79,21 @@ def login():
 
     db = get_db()
     user = db.execute(
-        "SELECT password FROM users WHERE email = ?",
+        "SELECT password, confirmed FROM users WHERE email = ?",
         (email,)
     ).fetchone()
     db.close()
 
-    if not user or not verify_password(password, user[0]):
-        return jsonify({"error": "Email ou senha inválidos"}), 401
+    if not user:
+        return jsonify({"error": "Usuário não encontrado"}), 401
 
-    return jsonify({"message": "Login realizado com sucesso", "email": email})
+    if not user[1]:
+        return jsonify({"error": "Confirme seu email antes de entrar"}), 403
+
+    if not verify_password(password, user[0]):
+        return jsonify({"error": "Senha incorreta"}), 401
+
+    return jsonify({"message": "Login realizado com sucesso"})
 
 @app.route("/chat", methods=["POST"])
 def chat():
