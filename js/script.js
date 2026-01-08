@@ -1,59 +1,50 @@
-const API_URL = "https://chatbr.onrender.com/chat";
+const API = "https://chatbr.onrender.com";
 
-const input = document.getElementById("userInput");
-const messages = document.getElementById("messages");
-const sendBtn = document.getElementById("sendBtn");
-
-sendBtn.addEventListener("click", sendMessage);
-input.addEventListener("keydown", e => {
-  if (e.key === "Enter") sendMessage();
-});
-
-function createMessage(className) {
-  const div = document.createElement("div");
-  div.className = "message " + className;
-  messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
-  return div;
+function login() {
+  fetch(API + "/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      localStorage.setItem("user", data.email);
+      loginModal.style.display = "none";
+    } else alert("Erro no login");
+  });
 }
 
-function typeWriter(element, text, speed = 25) {
-  let i = 0;
-  element.textContent = "";
-
-  function typing() {
-    if (i < text.length) {
-      element.textContent += text.charAt(i);
-      i++;
-      messages.scrollTop = messages.scrollHeight;
-      setTimeout(typing, speed);
-    }
-  }
-  typing();
+function register() {
+  fetch(API + "/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) alert("Conta criada!");
+    else alert(data.error);
+  });
 }
 
-async function sendMessage() {
-  const text = input.value.trim();
+function sendMessage() {
+  const text = userInput.value;
   if (!text) return;
 
-  const userDiv = createMessage("user");
-  userDiv.textContent = text;
-  input.value = "";
-
-  const botDiv = createMessage("bot");
-  botDiv.textContent = "Digitando...";
-
-  try {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text })
-    });
-
-    const data = await response.json();
-    typeWriter(botDiv, data.reply);
-
-  } catch (err) {
-    botDiv.textContent = "Erro ao conectar com o servidor.";
-  }
+  fetch(API + "/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: text })
+  })
+  .then(r => r.json())
+  .then(data => {
+    messages.innerHTML += `<div>${data.reply}</div>`;
+  });
 }

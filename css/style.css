@@ -106,3 +106,34 @@ button {
   margin-left: 10px;
   cursor: pointer;
 }
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-box {
+  background: #fff;
+  padding: 20px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-box input {
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.modal-box button {
+  padding: 10px;
+}
+
+.modal-box p {
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
