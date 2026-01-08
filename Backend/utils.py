@@ -1,32 +1,27 @@
-import sqlite3
+import bcrypt
 import secrets
-from werkzeug.security import generate_password_hash, check_password_hash
 import smtplib
 from email.message import EmailMessage
 import os
 
-DB = "db.sqlite"
-
-def get_db():
-    return sqlite3.connect(DB)
-
 def hash_password(password):
-    return generate_password_hash(password)
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
 def verify_password(password, hashed):
-    return check_password_hash(hashed, password)
+    return bcrypt.checkpw(password.encode(), hashed.encode())
 
 def generate_token():
     return secrets.token_urlsafe(32)
 
-def send_confirmation_email(email, token):
-    link = f"https://chatbr.onrender.com/confirm/{token}"
+def send_confirmation_email(to_email, token):
+    link = f"https://chatbr.onrender.com/confirm?token={token}"
 
     msg = EmailMessage()
-    msg["Subject"] = "Confirme sua conta - ChatScript"
-    msg["From"] = os.getenv("EMAIL_USER")
-    msg["To"] = email
-    msg.set_content(f"""
+    msg["Subject"] = "Confirme sua conta no ChatScript"
+    msg["From"] = os.environ.get("EMAIL_USER")
+    msg["To"] = to_email
+    msg.set_content(
+        f"""
 Olá!
 
 Clique no link abaixo para confirmar sua conta no ChatScript:
@@ -34,8 +29,12 @@ Clique no link abaixo para confirmar sua conta no ChatScript:
 {link}
 
 Se você não criou essa conta, ignore este email.
-""")
+"""
+    )
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(os.getenv("EMAIL_USER"), os.getenv("EMAIL_PASS"))
+        smtp.login(
+            os.environ.get("EMAIL_USER"),
+            os.environ.get("EMAIL_PASS")
+        )
         smtp.send_message(msg)

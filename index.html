@@ -1,57 +1,41 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <title>ChatScript</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatScript</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-<header class="top-bar">
-  <div class="logo">ChatScript</div>
+<header>
+  <h1>ChatScript</h1>
 
-  <div class="user-icon" onclick="openLogin()">
+  <div id="userIcon" class="user-icon">
     <svg viewBox="0 0 24 24">
-      <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+      <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6z"/>
     </svg>
   </div>
 </header>
 
-<main id="chat">
-  <div id="messages"></div>
-</main>
+<main id="chat"></main>
 
-<footer class="input-area">
-  <input id="userInput" placeholder="Digite sua mensagem..." />
-  <button onclick="sendMessage()">➤</button>
+<footer>
+  <input id="input" placeholder="Digite sua mensagem..." autocomplete="off">
 </footer>
 
 <!-- MODAL LOGIN -->
-<div class="modal" id="loginModal">
+<div id="modal" class="modal">
   <div class="modal-box">
-    <button class="close-btn" onclick="closeLogin()">✕</button>
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <h2 id="modalTitle">Login</h2>
 
-    <h2>Entrar</h2>
-    <input id="loginEmail" type="email" placeholder="Email">
-    <input id="loginPassword" type="password" placeholder="Senha">
-    <button onclick="login()">Entrar</button>
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Senha">
 
-    <p class="switch" onclick="showRegister()">Criar conta</p>
-  </div>
-</div>
-
-<!-- MODAL REGISTRO -->
-<div class="modal" id="registerModal">
-  <div class="modal-box">
-    <button class="close-btn" onclick="closeRegister()">✕</button>
-
-    <h2>Criar conta</h2>
-    <input id="regEmail" type="email" placeholder="Email">
-    <input id="regPassword" type="password" placeholder="Senha">
-    <button onclick="register()">Criar conta</button>
-
-    <p class="switch" onclick="showLogin()">Já tenho conta</p>
+    <button onclick="submit()">Entrar</button>
+    <small onclick="toggleMode()">Não tem conta? Crie aqui</small>
   </div>
 </div>
 

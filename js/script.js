@@ -1,98 +1,60 @@
-const API = "https://chatbr.onrender.com";
+const chat = document.getElementById("chat");
+const input = document.getElementById("input");
+const modal = document.getElementById("modal");
 
-const messages = document.getElementById("messages");
-const input = document.getElementById("userInput");
+document.getElementById("userIcon").onclick = () => {
+  modal.style.display = "flex";
+};
 
-input.addEventListener("keydown", e => {
-  if (e.key === "Enter") sendMessage();
+function closeModal() {
+  modal.style.display = "none";
+}
+
+function toggleMode() {
+  const title = document.getElementById("modalTitle");
+  title.innerText =
+    title.innerText === "Login" ? "Criar Conta" : "Login";
+}
+
+input.addEventListener("keydown", async e => {
+  if (e.key === "Enter" && input.value.trim()) {
+    const text = input.value;
+    input.value = "";
+
+    addMessage(text, "user");
+
+    try {
+      const res = await fetch("https://chatbr.onrender.com/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text })
+      });
+
+      const data = await res.json();
+      typeMessage(data.reply);
+    } catch {
+      addMessage("Erro ao conectar com o servidor.", "bot");
+    }
+  }
 });
 
-function addMessage(text, cls) {
+function addMessage(text, type) {
   const div = document.createElement("div");
-  div.className = `message ${cls}`;
-  messages.appendChild(div);
+  div.className = `msg ${type}`;
+  div.innerText = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function typeMessage(text) {
+  const div = document.createElement("div");
+  div.className = "msg bot";
+  chat.appendChild(div);
 
   let i = 0;
   const interval = setInterval(() => {
-    div.textContent += text[i];
-    i++;
-    messages.scrollTop = messages.scrollHeight;
+    div.innerText += text[i++];
+    chat.scrollTop = chat.scrollHeight;
     if (i >= text.length) clearInterval(interval);
   }, 20);
-}
-
-async function sendMessage() {
-  const text = input.value.trim();
-  if (!text) return;
-
-  addMessage(text, "user");
-  input.value = "";
-
-  const res = await fetch(`${API}/chat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
-  });
-
-  const data = await res.json();
-  addMessage(data.reply, "bot");
-}
-
-/* MODAL */
-function openLogin() {
-  document.getElementById("loginModal").style.display = "flex";
-}
-function closeLogin() {
-  document.getElementById("loginModal").style.display = "none";
-}
-function showRegister() {
-  closeLogin();
-  document.getElementById("registerModal").style.display = "flex";
-}
-function closeRegister() {
-  document.getElementById("registerModal").style.display = "none";
-}
-function showLogin() {
-  closeRegister();
-  openLogin();
-}
-
-async function login() {
-  const email = document.getElementById("loginEmail").value;
-  const password = document.getElementById("loginPassword").value;
-
-  const res = await fetch("https://chatbr.onrender.com/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password })
-  });
-
-  const data = await res.json();
-
-  if (data.ok) {
-    document.querySelector(".user-icon").innerHTML =
-      `<span>${data.avatar}</span>`;
-    closeLogin();
-  } else {
-    alert(data.error);
-  }
-}
-async function register() {
-  const email = document.getElementById("regEmail").value;
-  const password = document.getElementById("regPassword").value;
-
-  const res = await fetch("https://chatbr.onrender.com/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password })
-  });
-
-  const data = await res.json();
-
-  if (data.ok) {
-    alert("Verifique seu email para confirmar a conta");
-    closeRegister();
-  } else {
-    alert(data.error);
-  }
 }

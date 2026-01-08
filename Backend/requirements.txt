@@ -1,6 +1,6 @@
 flask
 flask-cors
 openai
-werkzeug
-python-dotenv
+email-validator
+bcrypt
 requests
