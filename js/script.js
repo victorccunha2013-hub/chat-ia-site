@@ -1,47 +1,38 @@
-const input = document.getElementById("input");
+const API_URL = "https://chatbr.onrender.com/chat";
+
+const input = document.getElementById("userInput");
 const messages = document.getElementById("messages");
 
-input.addEventListener("keydown", async (e) => {
-  if (e.key === "Enter" && input.value.trim() !== "") {
-    const text = input.value;
-    input.value = "";
-
-    addMessage(text, "user");
-
-    try {
-      const res = await fetch("https://chatbr.onrender.com/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text })
-      });
-
-      const data = await res.json();
-      typeBotMessage(data.reply);
-
-    } catch (err) {
-      addMessage("⚠️ Erro ao conectar com o servidor.", "bot");
-    }
-  }
+input.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") sendMessage();
 });
 
-function addMessage(text, sender) {
+function addMessage(text, className) {
   const div = document.createElement("div");
-  div.className = `message ${sender}`;
+  div.className = "message " + className;
   div.textContent = text;
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 }
 
-function typeBotMessage(text) {
-  const div = document.createElement("div");
-  div.className = "message bot";
-  messages.appendChild(div);
+async function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
 
-  let i = 0;
-  const interval = setInterval(() => {
-    div.textContent += text[i];
-    i++;
-    messages.scrollTop = messages.scrollHeight;
-    if (i >= text.length) clearInterval(interval);
-  }, 20);
+  addMessage(text, "user");
+  input.value = "";
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text })
+    });
+
+    const data = await response.json();
+    addMessage(data.reply, "bot");
+
+  } catch (err) {
+    addMessage("Erro ao conectar com o servidor.", "bot");
+  }
 }
