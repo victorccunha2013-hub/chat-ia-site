@@ -57,3 +57,42 @@ function showLogin() {
   openLogin();
 }
 
+async function login() {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  const res = await fetch("https://chatbr.onrender.com/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password })
+  });
+
+  const data = await res.json();
+
+  if (data.ok) {
+    document.querySelector(".user-icon").innerHTML =
+      `<span>${data.avatar}</span>`;
+    closeLogin();
+  } else {
+    alert(data.error);
+  }
+}
+async function register() {
+  const email = document.getElementById("regEmail").value;
+  const password = document.getElementById("regPassword").value;
+
+  const res = await fetch("https://chatbr.onrender.com/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password })
+  });
+
+  const data = await res.json();
+
+  if (data.ok) {
+    alert("Verifique seu email para confirmar a conta");
+    closeRegister();
+  } else {
+    alert(data.error);
+  }
+}

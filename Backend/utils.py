@@ -1,44 +1,41 @@
-import hashlib
-import secrets
 import sqlite3
-import requests
+import secrets
+from werkzeug.security import generate_password_hash, check_password_hash
+import smtplib
+from email.message import EmailMessage
 import os
 
-DB_PATH = "Backend/db.sqlite"
+DB = "db.sqlite"
+
+def get_db():
+    return sqlite3.connect(DB)
 
 def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
+    return generate_password_hash(password)
 
 def verify_password(password, hashed):
-    return hash_password(password) == hashed
+    return check_password_hash(hashed, password)
 
 def generate_token():
     return secrets.token_urlsafe(32)
 
 def send_confirmation_email(email, token):
-    api_key = os.getenv("RESEND_API_KEY")
-    base_url = os.getenv("BASE_URL")
+    link = f"https://chatbr.onrender.com/confirm/{token}"
 
-    confirm_link = f"{base_url}/confirmar?token={token}"
+    msg = EmailMessage()
+    msg["Subject"] = "Confirme sua conta - ChatScript"
+    msg["From"] = os.getenv("EMAIL_USER")
+    msg["To"] = email
+    msg.set_content(f"""
+Olá!
 
-    payload = {
-        "from": "ChatScript <onboarding@resend.dev>",
-        "to": [email],
-        "subject": "Confirme sua conta no ChatScript",
-        "html": f"""
-        <h2>Bem-vindo ao ChatScript 🚀</h2>
-        <p>Clique no botão abaixo para confirmar sua conta:</p>
-        <a href="{confirm_link}"
-           style="padding:12px 20px;background:#7c3aed;color:#fff;
-           text-decoration:none;border-radius:8px;display:inline-block;">
-           Confirmar conta
-        </a>
-        """
-    }
+Clique no link abaixo para confirmar sua conta no ChatScript:
 
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
+{link}
 
-    requests.post("https://api.resend.com/emails", json=payload, headers=headers)
+Se você não criou essa conta, ignore este email.
+""")
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(os.getenv("EMAIL_USER"), os.getenv("EMAIL_PASS"))
+        smtp.send_message(msg)
