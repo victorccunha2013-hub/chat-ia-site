@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ChatScript</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
@@ -17,24 +17,28 @@
 
   <main class="chat">
     <div id="messages"></div>
-    <div class="input-area">
-      <input id="input" placeholder="Digite sua mensagem..." />
-      <button onclick="sendMessage()">Enviar</button>
+
+    <div class="input-wrapper">
+      <textarea
+        id="input"
+        rows="1"
+        placeholder="Enviar uma mensagem"
+        onkeydown="handleKey(event)"
+      ></textarea>
+
+      <button id="sendBtn" onclick="sendMessage()">➤</button>
     </div>
   </main>
 </div>
 
+<!-- MODAL LOGIN (mantém o que já tem) -->
 <div id="modal" class="modal">
   <div class="modal-box">
     <span class="close" onclick="closeModal()">×</span>
-
     <h2 id="modalTitle">Entrar</h2>
-
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Senha">
-
+    <input id="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Senha" />
     <button onclick="submitAuth()">Continuar</button>
-
     <p id="toggle" onclick="toggleMode()">Não tem conta? Crie aqui</p>
   </div>
 </div>
