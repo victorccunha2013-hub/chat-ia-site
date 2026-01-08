@@ -2,7 +2,7 @@ const form = document.getElementById("authForm");
 const registerBtn = document.getElementById("registerBtn");
 const msg = document.getElementById("msg");
 
-const API = "https://SEU_BACKEND.onrender.com";
+const API = "https://chatbr.onrender.com";
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();

@@ -2,9 +2,28 @@ import smtplib
 from email.message import EmailMessage
 import os
 import uuid
+import hashlib
+
+# =========================
+# SENHAS
+# =========================
+
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+def verify_password(password, hashed):
+    return hash_password(password) == hashed
+
+# =========================
+# TOKEN
+# =========================
 
 def generate_token():
     return str(uuid.uuid4())
+
+# =========================
+# EMAIL
+# =========================
 
 def send_confirmation_email(to_email, token):
     msg = EmailMessage()
