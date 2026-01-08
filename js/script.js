@@ -1,67 +1,67 @@
 const API = "https://chatbr.onrender.com";
-let isRegister = false;
+let mode = "login";
 
-function handleKey(e) {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-}
-
-async function sendMessage() {
-  const input = document.getElementById("input");
-  const text = input.value.trim();
-  if (!text) return;
-
-  addMessage(text, "user");
-  input.value = "";
-
-  const botMsg = addMessage("", "bot");
-
-  try {
-    const res = await fetch(API + "/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text })
-    });
-
-    const data = await res.json();
-    typeWriter(botMsg, data.reply);
-  } catch {
-    typeWriter(botMsg, "Erro ao conectar com o servidor.");
-  }
-}
-
-function addMessage(text, type) {
-  const msg = document.createElement("div");
-  msg.className = `message ${type}`;
-  msg.innerText = text;
-  document.getElementById("messages").appendChild(msg);
-  msg.scrollIntoView();
-  return msg;
-}
-
-/* ANIMAÇÃO DIGITANDO */
-function typeWriter(element, text, i = 0) {
-  if (i < text.length) {
-    element.innerText += text.charAt(i);
-    setTimeout(() => typeWriter(element, text, i + 1), 20);
-  }
-}
-
-/* LOGIN MODAL */
-function openModal() {
-  document.getElementById("modal").style.display = "block";
-}
-function closeModal() {
+function toggleModal() {
   document.getElementById("modal").style.display = "none";
 }
-function toggleMode() {
-  isRegister = !isRegister;
+
+function switchMode() {
+  mode = mode === "login" ? "register" : "login";
   document.getElementById("modalTitle").innerText =
-    isRegister ? "Criar conta" : "Entrar";
-  document.getElementById("toggle").innerHTML =
-    isRegister
-      ? "Já tem conta? <span>Entrar</span>"
-      : "Não tem uma conta? <span>Criar agora</span>";
+    mode === "login" ? "Entrar" : "Criar conta";
 }
+
+function submitAuth() {
+  fetch(`${API}/${mode}`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
+  }).then(r => {
+    if (r.ok) toggleModal();
+    else alert("Erro");
+  });
+}
+
+function typeWriter(el, text) {
+  let i = 0;
+  el.textContent = "";
+  function t() {
+    if (i < text.length) {
+      el.textContent += text[i++];
+      el.scrollIntoView({behavior:"smooth"});
+      setTimeout(t, 18);
+    }
+  }
+  t();
+}
+
+function send() {
+  if (!input.value) return;
+
+  const user = document.createElement("div");
+  user.className = "message user";
+  user.textContent = input.value;
+  chat.appendChild(user);
+
+  fetch(`${API}/chat`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({message: input.value})
+  })
+  .then(r => r.json())
+  .then(d => {
+    const bot = document.createElement("div");
+    bot.className = "message bot";
+    chat.appendChild(bot);
+    typeWriter(bot, d.reply);
+  });
+
+  input.value = "";
+}
+
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") send();
+});
