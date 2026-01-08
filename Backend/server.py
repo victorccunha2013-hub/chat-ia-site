@@ -15,7 +15,7 @@ def home():
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.json
-    user_message = data.get("message", "")
+    user_message = data.get("message")
 
     if not user_message:
         return jsonify({"reply": "Mensagem vazia"}), 400
@@ -43,7 +43,7 @@ def chat():
         return jsonify({"reply": reply})
 
     except Exception as e:
-        return jsonify({"reply": "⚠️ Erro ao conectar com a IA."}), 500
+        return jsonify({"reply": "⚠️ Erro ao conectar com a IA"}), 500
 
 
 if __name__ == "__main__":
