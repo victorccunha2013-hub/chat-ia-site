@@ -10,8 +10,10 @@
   <!-- HEADER -->
   <header class="top-bar">
     <div class="logo">ChatScript</div>
-    <div class="user-icon">
-      <span>👤</span>
+    <div class="user-icon" id="openLogin">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+      </svg>
     </div>
   </header>
 
@@ -22,13 +24,27 @@
 
   <!-- INPUT -->
   <footer class="input-area">
-    <input
-      id="messageInput"
-      type="text"
-      placeholder="Digite sua mensagem..."
-      autocomplete="off"
-    />
+    <input id="messageInput" type="text" placeholder="Digite sua mensagem..." />
   </footer>
+
+  <!-- MODAL LOGIN -->
+  <div class="modal" id="loginModal">
+    <div class="modal-box">
+      <button class="close-btn" id="closeModal">✕</button>
+
+      <h2 id="modalTitle">Entrar</h2>
+
+      <input type="email" placeholder="E-mail" />
+      <input type="password" placeholder="Senha" />
+
+      <button class="primary-btn">Entrar</button>
+
+      <p class="switch">
+        Não tem uma conta?
+        <span id="switchToRegister">Crie aqui</span>
+      </p>
+    </div>
+  </div>
 
   <script src="js/script.js"></script>
 </body>

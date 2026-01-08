@@ -1,8 +1,21 @@
 const chat = document.getElementById("chat");
 const input = document.getElementById("messageInput");
 
+const modal = document.getElementById("loginModal");
+const openLogin = document.getElementById("openLogin");
+const closeModal = document.getElementById("closeModal");
+const switchToRegister = document.getElementById("switchToRegister");
+const modalTitle = document.getElementById("modalTitle");
+
+openLogin.onclick = () => modal.style.display = "flex";
+closeModal.onclick = () => modal.style.display = "none";
+
+switchToRegister.onclick = () => {
+  modalTitle.textContent = "Criar conta";
+};
+
 input.addEventListener("keydown", async (e) => {
-  if (e.key === "Enter" && input.value.trim() !== "") {
+  if (e.key === "Enter" && input.value.trim()) {
     sendMessage();
   }
 });
@@ -12,8 +25,7 @@ async function sendMessage() {
   input.value = "";
 
   addMessage(text, "user");
-
-  const botMessage = addMessage("", "bot");
+  const bot = addMessage("", "bot");
 
   try {
     const res = await fetch("https://chatbr.onrender.com/chat", {
@@ -23,9 +35,9 @@ async function sendMessage() {
     });
 
     const data = await res.json();
-    typeText(botMessage, data.reply);
+    typeText(bot, data.reply);
   } catch {
-    typeText(botMessage, "Erro ao conectar com o servidor.");
+    typeText(bot, "Erro ao conectar com o servidor.");
   }
 }
 
@@ -38,15 +50,13 @@ function addMessage(text, type) {
   return div;
 }
 
-function typeText(element, text) {
+function typeText(el, text) {
   let i = 0;
-  element.textContent = "";
-
+  el.textContent = "";
   const interval = setInterval(() => {
     if (i < text.length) {
-      element.textContent += text.charAt(i);
+      el.textContent += text[i++];
       chat.scrollTop = chat.scrollHeight;
-      i++;
     } else {
       clearInterval(interval);
     }
