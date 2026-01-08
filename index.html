@@ -1,51 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ChatScript</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="top-bar">
-    <div class="logo">ChatScript</div>
-    <div class="user-icon" id="openLogin">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
-      </svg>
-    </div>
-  </header>
+<header class="top-bar">
+  <div class="logo">ChatScript</div>
 
-  <!-- CHAT -->
-  <main class="chat-container">
-    <div id="chat"></div>
-  </main>
-
-  <!-- INPUT -->
-  <footer class="input-area">
-    <input id="messageInput" type="text" placeholder="Digite sua mensagem..." />
-  </footer>
-
-  <!-- MODAL LOGIN -->
-  <div class="modal" id="loginModal">
-    <div class="modal-box">
-      <button class="close-btn" id="closeModal">✕</button>
-
-      <h2 id="modalTitle">Entrar</h2>
-
-      <input type="email" placeholder="E-mail" />
-      <input type="password" placeholder="Senha" />
-
-      <button class="primary-btn">Entrar</button>
-
-      <p class="switch">
-        Não tem uma conta?
-        <span id="switchToRegister">Crie aqui</span>
-      </p>
-    </div>
+  <div class="user-icon" onclick="openLogin()">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+    </svg>
   </div>
+</header>
 
-  <script src="js/script.js"></script>
+<main id="chat">
+  <div id="messages"></div>
+</main>
+
+<footer class="input-area">
+  <input id="userInput" placeholder="Digite sua mensagem..." />
+  <button onclick="sendMessage()">➤</button>
+</footer>
+
+<!-- MODAL LOGIN -->
+<div class="modal" id="loginModal">
+  <div class="modal-box">
+    <button class="close-btn" onclick="closeLogin()">✕</button>
+
+    <h2>Entrar</h2>
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
+
+    <p class="switch" onclick="showRegister()">Criar conta</p>
+  </div>
+</div>
+
+<!-- MODAL REGISTRO -->
+<div class="modal" id="registerModal">
+  <div class="modal-box">
+    <button class="close-btn" onclick="closeRegister()">✕</button>
+
+    <h2>Criar conta</h2>
+    <input id="regEmail" type="email" placeholder="Email">
+    <input id="regPassword" type="password" placeholder="Senha">
+    <button onclick="register()">Criar conta</button>
+
+    <p class="switch" onclick="showLogin()">Já tenho conta</p>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
 </body>
 </html>

@@ -1,64 +1,59 @@
-const chat = document.getElementById("chat");
-const input = document.getElementById("messageInput");
+const API = "https://chatbr.onrender.com";
 
-const modal = document.getElementById("loginModal");
-const openLogin = document.getElementById("openLogin");
-const closeModal = document.getElementById("closeModal");
-const switchToRegister = document.getElementById("switchToRegister");
-const modalTitle = document.getElementById("modalTitle");
+const messages = document.getElementById("messages");
+const input = document.getElementById("userInput");
 
-openLogin.onclick = () => modal.style.display = "flex";
-closeModal.onclick = () => modal.style.display = "none";
-
-switchToRegister.onclick = () => {
-  modalTitle.textContent = "Criar conta";
-};
-
-input.addEventListener("keydown", async (e) => {
-  if (e.key === "Enter" && input.value.trim()) {
-    sendMessage();
-  }
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") sendMessage();
 });
 
-async function sendMessage() {
-  const text = input.value;
-  input.value = "";
-
-  addMessage(text, "user");
-  const bot = addMessage("", "bot");
-
-  try {
-    const res = await fetch("https://chatbr.onrender.com/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text })
-    });
-
-    const data = await res.json();
-    typeText(bot, data.reply);
-  } catch {
-    typeText(bot, "Erro ao conectar com o servidor.");
-  }
-}
-
-function addMessage(text, type) {
+function addMessage(text, cls) {
   const div = document.createElement("div");
-  div.className = `message ${type}`;
-  div.textContent = text;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-  return div;
-}
+  div.className = `message ${cls}`;
+  messages.appendChild(div);
 
-function typeText(el, text) {
   let i = 0;
-  el.textContent = "";
   const interval = setInterval(() => {
-    if (i < text.length) {
-      el.textContent += text[i++];
-      chat.scrollTop = chat.scrollHeight;
-    } else {
-      clearInterval(interval);
-    }
+    div.textContent += text[i];
+    i++;
+    messages.scrollTop = messages.scrollHeight;
+    if (i >= text.length) clearInterval(interval);
   }, 20);
 }
+
+async function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, "user");
+  input.value = "";
+
+  const res = await fetch(`${API}/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: text })
+  });
+
+  const data = await res.json();
+  addMessage(data.reply, "bot");
+}
+
+/* MODAL */
+function openLogin() {
+  document.getElementById("loginModal").style.display = "flex";
+}
+function closeLogin() {
+  document.getElementById("loginModal").style.display = "none";
+}
+function showRegister() {
+  closeLogin();
+  document.getElementById("registerModal").style.display = "flex";
+}
+function closeRegister() {
+  document.getElementById("registerModal").style.display = "none";
+}
+function showLogin() {
+  closeRegister();
+  openLogin();
+}
+
