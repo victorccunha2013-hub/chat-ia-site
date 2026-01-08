@@ -1,8 +1,8 @@
 import bcrypt
 import secrets
 import smtplib
-from email.message import EmailMessage
 import os
+from email.message import EmailMessage
 
 def hash_password(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
@@ -15,10 +15,15 @@ def generate_token():
 
 def send_confirmation_email(to_email, token):
     site_url = os.getenv("SITE_URL")
+    email_user = os.getenv("EMAIL_USER")
+    email_pass = os.getenv("EMAIL_PASS")
+
+    if not email_user or not email_pass:
+        raise Exception("EMAIL_USER ou EMAIL_PASS não configurado")
 
     msg = EmailMessage()
     msg["Subject"] = "Confirme sua conta - ChatScript"
-    msg["From"] = os.getenv("EMAIL_USER")
+    msg["From"] = email_user
     msg["To"] = to_email
 
     msg.set_content(f"""
@@ -28,9 +33,9 @@ Clique no link abaixo para confirmar sua conta no ChatScript:
 
 {site_url}/confirm?token={token}
 
-Se você não criou esta conta, ignore este email.
+Se você não criou essa conta, ignore este email.
 """)
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(os.getenv("EMAIL_USER"), os.getenv("EMAIL_PASS"))
+        smtp.login(email_user, email_pass)
         smtp.send_message(msg)
