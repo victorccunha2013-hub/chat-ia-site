@@ -1,52 +1,78 @@
 const chat = document.getElementById("chat");
-const input = document.getElementById("input");
+const input = document.getElementById("messageInput");
+const modal = document.getElementById("authModal");
+const title = document.getElementById("modalTitle");
 
-input.addEventListener("keydown", e => {
-  if (e.key === "Enter") send();
+let mode = "login";
+
+// CHAT
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") sendMessage();
 });
 
-function send() {
-  const text = input.value;
+function sendMessage() {
+  const text = input.value.trim();
   if (!text) return;
 
-  chat.innerHTML += `<div class="msg user">${text}</div>`;
+  addMessage(text, "user");
   input.value = "";
 
   fetch("https://chatbr.onrender.com/chat", {
     method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({message:text})
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: text })
   })
-  .then(r => r.json())
-  .then(d => typeEffect(d.reply));
+    .then(res => res.json())
+    .then(data => typeBot(data.reply))
+    .catch(() => typeBot("Erro ao conectar com o servidor."));
 }
 
-function typeEffect(text) {
-  let i = 0;
-  const el = document.createElement("div");
-  el.className = "msg bot";
-  chat.appendChild(el);
+function addMessage(text, type) {
+  const div = document.createElement("div");
+  div.className = `msg ${type}`;
+  div.textContent = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
 
+function typeBot(text) {
+  const div = document.createElement("div");
+  div.className = "msg bot";
+  chat.appendChild(div);
+
+  let i = 0;
   const interval = setInterval(() => {
-    el.textContent += text[i];
+    div.textContent += text[i];
     i++;
-    if (i >= text.length) clearInterval(interval);
     chat.scrollTop = chat.scrollHeight;
+    if (i >= text.length) clearInterval(interval);
   }, 20);
 }
 
 // MODAL
-let mode = "login";
-function openModal(){ modal.classList.remove("hidden"); }
-function closeModal(){ modal.classList.add("hidden"); }
-function switchMode(){
+function openModal() {
+  modal.classList.remove("hidden");
+}
+
+function closeModal() {
+  modal.classList.add("hidden");
+}
+
+function switchMode() {
   mode = mode === "login" ? "register" : "login";
   title.innerText = mode === "login" ? "Entrar" : "Criar conta";
 }
-function submit(){
-  fetch(`https://chatbr.onrender.com/${mode}`,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({email:email.value,password:password.value})
-  }).then(r=>r.json()).then(d=>alert(d.message||d.error));
+
+function submitAuth() {
+  fetch(`https://chatbr.onrender.com/${mode}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value
+    })
+  })
+    .then(res => res.json())
+    .then(data => alert(data.message || data.error))
+    .catch(() => alert("Erro ao conectar com o servidor"));
 }

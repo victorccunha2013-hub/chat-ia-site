@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ChatScript</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-<header>
+<header class="topbar">
   <h1>ChatScript</h1>
   <div class="avatar" onclick="openModal()"></div>
 </header>
 
 <main id="chat"></main>
 
-<div class="input-box">
-  <input id="input" placeholder="Digite sua mensagem..." />
+<div class="input-area">
+  <input id="messageInput" placeholder="Digite sua mensagem..." />
 </div>
 
-<!-- MODAL -->
-<div id="modal" class="modal hidden">
+<!-- MODAL LOGIN / CADASTRO -->
+<div id="authModal" class="modal hidden">
   <div class="modal-box">
-    <button class="close" onclick="closeModal()">✕</button>
-    <h2 id="title">Entrar</h2>
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Senha">
-    <button onclick="submit()">Confirmar</button>
-    <p onclick="switchMode()">Criar conta</p>
+    <button class="close-btn" onclick="closeModal()">✕</button>
+
+    <h2 id="modalTitle">Entrar</h2>
+
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Senha" />
+
+    <button class="primary-btn" onclick="submitAuth()">Confirmar</button>
+
+    <p class="switch-text">
+      <span id="switchText">Não tem uma conta?</span>
+      <span class="link" onclick="switchMode()">Criar conta</span>
+    </p>
   </div>
 </div>
 
