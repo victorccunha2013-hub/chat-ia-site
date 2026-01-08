@@ -43,9 +43,7 @@ def chat():
         return jsonify({"reply": reply})
 
     except Exception as e:
-        return jsonify({
-            "reply": "⚠️ Erro ao conectar com a IA."
-        }), 500
+        return jsonify({"reply": "⚠️ Erro ao conectar com a IA."}), 500
 
 
 if __name__ == "__main__":
