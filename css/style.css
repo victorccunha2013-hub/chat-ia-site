@@ -1,165 +1,68 @@
-:root {
-    --bg: #0f172a;
-    --panel: #020617;
-    --text: #e5e7eb;
-    --accent: #7c3aed;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg: #f9fafb;
-        --panel: #ffffff;
-        --text: #111827;
-    }
-}
-
-* {
-    margin: 0;
-    box-sizing: border-box;
-    font-family: system-ui, sans-serif;
-}
-
 body {
-    background: var(--bg);
-    color: var(--text);
-    height: 100vh;
+  margin: 0;
+  background: #0f0f0f;
+  color: white;
+  font-family: Arial;
 }
 
-/* TOPO */
-.topbar {
-    height: 55px;
-    background: var(--panel);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
+header {
+  height: 55px;
+  background: #4f46e5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
 }
 
-.logo {
-    font-weight: bold;
-    color: var(--accent);
+#userIcon {
+  width: 38px;
+  height: 38px;
+  background: #999;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
-.user-circle {
-    width: 36px;
-    height: 36px;
-    background: gray;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-/* LAYOUT */
-.container {
-    display: flex;
-    height: calc(100vh - 55px);
-}
-
-.sidebar {
-    width: 240px;
-    background: var(--panel);
-}
-
-.chat {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-/* CHAT */
-.messages {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-}
-
-.msg {
-    max-width: 60%;
-    padding: 12px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-.user {
-    background: var(--accent);
-    color: white;
-    margin-left: auto;
-}
-
-.bot {
-    background: #1f2933;
-}
-
-.input-area {
-    padding: 15px;
-}
-
-input {
-    width: 100%;
-    padding: 14px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-}
-
-/* MODAL */
 .modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.hidden {
-    display: none;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
 }
 
 .modal-box {
-    background: var(--panel);
-    padding: 25px;
-    width: 320px;
-    border-radius: 12px;
-    position: relative;
+  background: #1e1e1e;
+  width: 320px;
+  padding: 25px;
+  margin: 100px auto;
+  border-radius: 10px;
+  position: relative;
 }
 
-.modal-box input {
-    margin-bottom: 10px;
+.close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  cursor: pointer;
 }
 
-.modal-box button:not(.close-btn) {
-    width: 100%;
-    padding: 12px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 8px;
+.modal input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
 }
 
-
-/* BOTÃO X */
-.close-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: transparent;
-    color: var(--text);
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1;
-    width: auto;
-    height: auto;
+.modal button {
+  width: 100%;
+  padding: 10px;
+  background: #4f46e5;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 
-
-.switch {
-    margin-top: 10px;
-    font-size: 12px;
-}
-
-.switch span {
-    color: var(--accent);
-    cursor: pointer;
+#toggle {
+  margin-top: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: center;
 }

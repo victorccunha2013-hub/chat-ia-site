@@ -1,50 +1,40 @@
-const API_URL = "https://chatbr.onrender.com";
+const API = "https://chatbr.onrender.com";
+let isRegister = false;
 
-const input = document.getElementById("input");
-const messages = document.getElementById("messages");
-
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") sendMessage();
-});
-
-function addMessage(text, type) {
-  const div = document.createElement("div");
-  div.className = `message ${type}`;
-  messages.appendChild(div);
-
-  if (type === "bot") {
-    let i = 0;
-    const interval = setInterval(() => {
-      div.textContent += text[i];
-      i++;
-      if (i >= text.length) clearInterval(interval);
-      messages.scrollTop = messages.scrollHeight;
-    }, 20);
-  } else {
-    div.textContent = text;
-  }
-
-  messages.scrollTop = messages.scrollHeight;
+function openModal() {
+  document.getElementById("modal").style.display = "block";
 }
 
-async function sendMessage() {
-  const text = input.value.trim();
-  if (!text) return;
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
 
-  addMessage(text, "user");
-  input.value = "";
+function toggleMode() {
+  isRegister = !isRegister;
+  document.getElementById("modalTitle").innerText = isRegister ? "Criar conta" : "Entrar";
+  document.getElementById("toggle").innerText = isRegister
+    ? "Já tem conta? Entrar"
+    : "Não tem conta? Crie aqui";
+}
 
-  try {
-    const res = await fetch(`${API_URL}/chat`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text })
-    });
+async function submitAuth() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-    const data = await res.json();
-    addMessage(data.reply, "bot");
+  const route = isRegister ? "/register" : "/login";
 
-  } catch {
-    addMessage("Erro ao conectar com o servidor.", "bot");
+  const res = await fetch(API + route, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({email, password})
+  });
+
+  const data = await res.json();
+
+  if (data.success) {
+    closeModal();
+    alert("Logado com sucesso!");
+  } else {
+    alert(data.error);
   }
 }

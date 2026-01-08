@@ -1,24 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>ChatScript</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar"></aside>
 
-    <main class="chat">
-      <div id="messages"></div>
+<header>
+  <h1>ChatScript</h1>
+  <div id="userIcon" onclick="openModal()"></div>
+</header>
 
-      <div class="input-area">
-        <input id="input" type="text" placeholder="Digite sua mensagem..." />
-        <button onclick="sendMessage()">Enviar</button>
-      </div>
-    </main>
+<div class="app">
+  <aside class="sidebar"></aside>
+
+  <main class="chat">
+    <div id="messages"></div>
+    <div class="input-area">
+      <input id="input" placeholder="Digite sua mensagem..." />
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </main>
+</div>
+
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <span class="close" onclick="closeModal()">×</span>
+
+    <h2 id="modalTitle">Entrar</h2>
+
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Senha">
+
+    <button onclick="submitAuth()">Continuar</button>
+
+    <p id="toggle" onclick="toggleMode()">Não tem conta? Crie aqui</p>
   </div>
+</div>
 
-  <script src="js/script.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>

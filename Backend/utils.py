@@ -1,48 +1,24 @@
-import smtplib
-from email.message import EmailMessage
-import os
-import uuid
-import hashlib
+from werkzeug.security import generate_password_hash, check_password_hash
+import sqlite3
 
-# =========================
-# SENHAS
-# =========================
+def get_db():
+    return sqlite3.connect("db.sqlite")
+
+def init_db():
+    db = get_db()
+    c = db.cursor()
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )
+    """)
+    db.commit()
+    db.close()
 
 def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
+    return generate_password_hash(password)
 
 def verify_password(password, hashed):
-    return hash_password(password) == hashed
-
-# =========================
-# TOKEN
-# =========================
-
-def generate_token():
-    return str(uuid.uuid4())
-
-# =========================
-# EMAIL
-# =========================
-
-def send_confirmation_email(to_email, token):
-    msg = EmailMessage()
-    msg["Subject"] = "Confirme sua conta no ChatScript"
-    msg["From"] = os.environ.get("EMAIL_USER")
-    msg["To"] = to_email
-
-    link = f"{os.environ.get('SITE_URL')}/confirm/{token}"
-
-    msg.set_content(
-        f"Olá!\n\n"
-        f"Clique no link abaixo para confirmar sua conta:\n\n"
-        f"{link}\n\n"
-        f"ChatScript"
-    )
-
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(
-            os.environ.get("EMAIL_USER"),
-            os.environ.get("EMAIL_PASS")
-        )
-        smtp.send_message(msg)
+    return check_password_hash(hashed, password)
