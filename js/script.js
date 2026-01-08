@@ -62,9 +62,10 @@ function switchMode() {
   mode = mode === "login" ? "register" : "login";
   title.innerText = mode === "login" ? "Entrar" : "Criar conta";
 }
-
 function submitAuth() {
-  fetch(`https://chatbr.onrender.com/${mode}`, {
+  const endpoint = mode === "login" ? "login" : "signup";
+
+  fetch(`https://chatbr.onrender.com/${endpoint}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -73,6 +74,16 @@ function submitAuth() {
     })
   })
     .then(res => res.json())
-    .then(data => alert(data.message || data.error))
-    .catch(() => alert("Erro ao conectar com o servidor"));
+    .then(data => {
+      if (data.error) {
+        alert(data.error);
+      } else {
+        alert(data.message || "Sucesso!");
+        closeModal();
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Erro ao conectar ao servidor");
+    });
 }
