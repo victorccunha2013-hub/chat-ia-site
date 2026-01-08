@@ -127,7 +127,7 @@ input {
     margin-bottom: 10px;
 }
 
-.modal-box button {
+.modal-box button:not(.close-btn) {
     width: 100%;
     padding: 12px;
     background: var(--accent);
@@ -136,18 +136,23 @@ input {
     border-radius: 8px;
 }
 
+
 /* BOTÃO X */
 .close-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
+    top: 12px;
+    right: 12px;
+    background: transparent;
     color: var(--text);
-    font-size: 18px;
-    cursor: pointer;
+    font-size: 16px;
     border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
     width: auto;
+    height: auto;
 }
+
 
 .switch {
     margin-top: 10px;
