@@ -9,55 +9,78 @@ const closeModal = document.getElementById("closeModal");
 
 const emailInput = document.getElementById("email");
 const passInput = document.getElementById("password");
-const loginBtn = document.getElementById("loginBtn");
-const goRegister = document.getElementById("goRegister");
 
+const modalTitle = document.getElementById("modalTitle");
+const actionBtn = document.getElementById("actionBtn");
+const switchText = document.getElementById("switchText");
+const switchAction = document.getElementById("switchAction");
+
+let mode = "login"; // login | register
 let logged = false;
 
-// MODAL
+/* ---------- MODAL ---------- */
 userIcon.onclick = () => modal.classList.remove("hidden");
 closeModal.onclick = () => modal.classList.add("hidden");
 
-// LOGIN
-loginBtn.onclick = async () => {
-    const email = emailInput.value;
-    const password = passInput.value;
+switchAction.onclick = () => {
+    if (mode === "login") {
+        mode = "register";
+        modalTitle.textContent = "Criar conta";
+        actionBtn.textContent = "Criar conta";
+        switchText.textContent = "Já tem conta?";
+        switchAction.textContent = "Entrar";
+    } else {
+        mode = "login";
+        modalTitle.textContent = "Entrar";
+        actionBtn.textContent = "Entrar";
+        switchText.textContent = "Não tem conta?";
+        switchAction.textContent = "Crie aqui";
+    }
+};
 
-    const res = await fetch(`${API}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-    });
+/* ---------- LOGIN / REGISTER ---------- */
+actionBtn.onclick = async () => {
+    const email = emailInput.value.trim();
+    const password = passInput.value.trim();
 
-    const data = await res.json();
-
-    if (data.error) {
-        alert(data.error);
+    if (!email || !password) {
+        alert("Preencha todos os campos");
         return;
     }
 
-    logged = true;
-    modal.classList.add("hidden");
+    const endpoint = mode === "login" ? "login" : "register";
+
+    try {
+        const res = await fetch(`${API}/${endpoint}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        if (mode === "login") {
+            logged = true;
+            modal.classList.add("hidden");
+        } else {
+            alert("Conta criada com sucesso! Agora faça login.");
+            switchAction.click();
+        }
+
+    } catch {
+        alert("Erro ao conectar com o servidor");
+    }
 };
 
-// REGISTRO
-goRegister.onclick = async () => {
-    const email = emailInput.value;
-    const password = passInput.value;
-
-    const res = await fetch(`${API}/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-    });
-
-    const data = await res.json();
-    alert(data.message || data.error);
-};
-
-// CHAT
+/* ---------- CHAT ---------- */
 input.addEventListener("keydown", async (e) => {
     if (e.key !== "Enter") return;
+
     if (!logged) {
         modal.classList.remove("hidden");
         return;
@@ -79,10 +102,11 @@ input.addEventListener("keydown", async (e) => {
         const data = await res.json();
         typeBot(data.reply);
     } catch {
-        addMessage("Erro ao conectar com o servidor", "bot");
+        addMessage("⚠️ Erro ao conectar com o servidor.", "bot");
     }
 });
 
+/* ---------- UI ---------- */
 function addMessage(text, type) {
     const div = document.createElement("div");
     div.className = `msg ${type}`;
@@ -100,7 +124,7 @@ function typeBot(text) {
     const interval = setInterval(() => {
         div.textContent += text[i];
         i++;
-        if (i >= text.length) clearInterval(interval);
         messages.scrollTop = messages.scrollHeight;
+        if (i >= text.length) clearInterval(interval);
     }, 20);
 }
