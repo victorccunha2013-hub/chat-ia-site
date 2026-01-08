@@ -129,21 +129,23 @@ textarea {
 .modal-box {
   background: var(--panel);
   width: 360px;
-  padding: 28px;
+  padding: 30px 28px;
   margin: 120px auto;
   border-radius: 14px;
   position: relative;
-  box-shadow: 0 20px 40px rgba(0,0,0,.4);
+  box-shadow: 0 20px 40px rgba(0,0,0,.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .modal-box h2 {
-  margin-top: 0;
   margin-bottom: 18px;
-  text-align: center;
 }
 
 .modal-box input {
   width: 100%;
+  max-width: 280px;
   padding: 12px;
   margin-bottom: 12px;
   border-radius: 10px;
@@ -154,21 +156,23 @@ textarea {
 
 .modal-box button {
   width: 100%;
+  max-width: 280px;
   padding: 12px;
+  margin-top: 6px;
   border-radius: 10px;
-  border: none;
   background: #4f46e5;
+  border: none;
   color: white;
   cursor: pointer;
-  font-size: 15px;
 }
 
 #toggle {
-  margin-top: 12px;
+  margin-top: 14px;
   font-size: 13px;
-  text-align: center;
   cursor: pointer;
+  text-align: center;
 }
+
 
 #toggle span {
   color: #4f46e5;
