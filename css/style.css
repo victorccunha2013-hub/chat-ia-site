@@ -253,3 +253,41 @@ footer input {
   20% { opacity: 1; }
   100% { opacity: .2; }
 }
+.avatar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  background: #bdbdbd;
+  border-radius: 50%;
+  position: relative;
+}
+
+/* Olhos */
+.eye {
+  width: 6px;
+  height: 6px;
+  background: #5a5a5a;
+  border-radius: 50%;
+  position: absolute;
+  top: 14px;
+  transition: height 0.15s;
+}
+
+.eye.left {
+  left: 12px;
+}
+
+.eye.right {
+  right: 12px;
+}
+
+/* Olhos fechados */
+.avatar.blink .eye {
+  height: 1px;
+  margin-top: 3px;
+}

@@ -87,3 +87,17 @@ fetch("https://chatbr.onrender.com/chat", {
   hideTyping();
   addMessage("bot", "⚠️ Erro ao conectar com o servidor.");
 });
+const avatar = document.querySelector(".avatar");
+
+function blinkAvatar() {
+  avatar.classList.add("blink");
+
+  setTimeout(() => {
+    avatar.classList.remove("blink");
+  }, 150);
+}
+
+// Pisca a cada 3 a 6 segundos (natural)
+setInterval(() => {
+  blinkAvatar();
+}, Math.random() * 3000 + 3000);
