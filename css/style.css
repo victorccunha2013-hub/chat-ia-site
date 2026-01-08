@@ -1,125 +1,65 @@
-/* RESET */
-* {
-  box-sizing: border-box;
+body {
   margin: 0;
-  padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #121212;
+  color: #fff;
+  font-family: Arial;
 }
 
-/* MODO ESCURO AUTOMÁTICO */
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #0e0e0e;
-    color: #eaeaea;
-  }
-}
-
-/* TOPO */
-.top-bar {
-  height: 56px;
-  background: #0f0f0f;
-  color: white;
+header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-  border-bottom: 1px solid #1f1f1f;
+  padding: 12px 20px;
+  background: #1f1f1f;
 }
 
-.logo {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-/* AVATAR */
-.avatar-svg svg {
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: #999;
+  border-radius: 50%;
   cursor: pointer;
 }
 
-.eye {
-  fill: #5a5a5a;
-  transform-origin: center;
-  animation: blink 5s infinite;
-}
-
-.avatar-thinking .eye {
-  animation: blink-fast 1s infinite;
-}
-
-@keyframes blink {
-  0%, 95%, 100% { transform: scaleY(1); }
-  96%, 99% { transform: scaleY(0.1); }
-}
-
-@keyframes blink-fast {
-  0%, 90%, 100% { transform: scaleY(1); }
-  91%, 99% { transform: scaleY(0.1); }
-}
-
-/* CHAT */
-.chat-container {
-  height: calc(100vh - 112px);
-  padding: 16px;
+#chat {
+  padding: 20px;
+  height: calc(100vh - 120px);
   overflow-y: auto;
 }
 
-#chat-messages {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.msg.user { text-align: right; margin: 10px; }
+.msg.bot { text-align: left; margin: 10px; }
+
+.input-box {
+  padding: 10px;
 }
 
-/* MENSAGENS */
-.message {
-  max-width: 75%;
-  padding: 10px 14px;
-  border-radius: 12px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  line-height: 1.4;
-}
-
-.message.user {
-  background: #3a7afe;
-  color: white;
-  align-self: flex-end;
-}
-
-.message.ai {
-  background: #1f1f1f;
-  color: #eaeaea;
-  align-self: flex-start;
-}
-
-.message.typing {
-  font-style: italic;
-  opacity: 0.7;
-}
-
-/* INPUT */
-.input-container {
-  display: flex;
+input {
+  width: 100%;
   padding: 12px;
-  gap: 8px;
-  border-top: 1px solid #1f1f1f;
-  background: #0f0f0f;
+  border-radius: 20px;
+  border: none;
 }
 
-.input-container input {
-  flex: 1;
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-box {
   background: #1f1f1f;
-  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
 }
 
-.input-container button {
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  background: #3a7afe;
-  color: white;
+.hidden { display: none; }
+
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }

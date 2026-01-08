@@ -1,43 +1,35 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>ChatScript</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- TOPO -->
-  <div class="top-bar">
-    <div class="logo">ChatScript</div>
+<header>
+  <h1>ChatScript</h1>
+  <div class="avatar" onclick="openModal()"></div>
+</header>
 
-    <div class="avatar-svg" id="avatar">
-      <svg width="40" height="40" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="48" fill="#bdbdbd"/>
-        <ellipse class="eye" cx="35" cy="40" rx="6" ry="6"/>
-        <ellipse class="eye" cx="65" cy="40" rx="6" ry="6"/>
-      </svg>
-    </div>
+<main id="chat"></main>
+
+<div class="input-box">
+  <input id="input" placeholder="Digite sua mensagem..." />
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal()">✕</button>
+    <h2 id="title">Entrar</h2>
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Senha">
+    <button onclick="submit()">Confirmar</button>
+    <p onclick="switchMode()">Criar conta</p>
   </div>
+</div>
 
-  <!-- CHAT -->
-  <div class="chat-container">
-    <div id="chat-messages"></div>
-  </div>
-
-  <!-- INPUT -->
-  <div class="input-container">
-    <input
-      id="user-input"
-      type="text"
-      placeholder="Digite sua mensagem..."
-      autocomplete="off"
-    />
-    <button id="send-btn">Enviar</button>
-  </div>
-
-  <script src="js/script.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>

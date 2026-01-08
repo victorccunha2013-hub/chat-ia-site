@@ -1,83 +1,52 @@
-const chatMessages = document.getElementById("chat-messages");
-const input = document.getElementById("user-input");
-const sendBtn = document.getElementById("send-btn");
-const avatar = document.getElementById("avatar");
+const chat = document.getElementById("chat");
+const input = document.getElementById("input");
 
-function addUserMessage(text) {
-  const msg = document.createElement("div");
-  msg.className = "message user";
-  msg.innerText = text;
-  chatMessages.appendChild(msg);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-}
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") send();
+});
 
-function showTyping() {
-  const typing = document.createElement("div");
-  typing.className = "message ai typing";
-  typing.id = "typing-indicator";
-  typing.innerText = "ChatScript está digitando...";
-  chatMessages.appendChild(typing);
-
-  avatar.classList.add("avatar-thinking");
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-function removeTyping() {
-  const typing = document.getElementById("typing-indicator");
-  if (typing) typing.remove();
-  avatar.classList.remove("avatar-thinking");
-}
-
-function typeWriter(text, element, speed = 20) {
-  let i = 0;
-  element.innerText = "";
-
-  function typing() {
-    if (i < text.length) {
-      element.innerText += text[i];
-      i++;
-      setTimeout(typing, speed);
-    }
-  }
-
-  typing();
-}
-
-function sendMessage() {
-  const text = input.value.trim();
+function send() {
+  const text = input.value;
   if (!text) return;
 
-  addUserMessage(text);
+  chat.innerHTML += `<div class="msg user">${text}</div>`;
   input.value = "";
-
-  showTyping();
 
   fetch("https://chatbr.onrender.com/chat", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({message:text})
   })
-    .then(res => res.json())
-    .then(data => {
-      removeTyping();
-
-      const aiMsg = document.createElement("div");
-      aiMsg.className = "message ai";
-      chatMessages.appendChild(aiMsg);
-
-      typeWriter(data.reply, aiMsg);
-    })
-    .catch(() => {
-      removeTyping();
-      const err = document.createElement("div");
-      err.className = "message ai";
-      err.innerText = "⚠️ Erro ao conectar com o servidor.";
-      chatMessages.appendChild(err);
-    });
+  .then(r => r.json())
+  .then(d => typeEffect(d.reply));
 }
 
-sendBtn.addEventListener("click", sendMessage);
+function typeEffect(text) {
+  let i = 0;
+  const el = document.createElement("div");
+  el.className = "msg bot";
+  chat.appendChild(el);
 
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") sendMessage();
-});
+  const interval = setInterval(() => {
+    el.textContent += text[i];
+    i++;
+    if (i >= text.length) clearInterval(interval);
+    chat.scrollTop = chat.scrollHeight;
+  }, 20);
+}
+
+// MODAL
+let mode = "login";
+function openModal(){ modal.classList.remove("hidden"); }
+function closeModal(){ modal.classList.add("hidden"); }
+function switchMode(){
+  mode = mode === "login" ? "register" : "login";
+  title.innerText = mode === "login" ? "Entrar" : "Criar conta";
+}
+function submit(){
+  fetch(`https://chatbr.onrender.com/${mode}`,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({email:email.value,password:password.value})
+  }).then(r=>r.json()).then(d=>alert(d.message||d.error));
+}
