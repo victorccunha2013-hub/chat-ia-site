@@ -6,11 +6,41 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div id="chat"></div>
 
+<!-- TOPO -->
+<header class="topbar">
+  <div class="logo">ChatScript</div>
+  <div class="avatar" id="openLogin"></div>
+</header>
+
+<!-- CHAT -->
+<main class="chat-container" id="chat"></main>
+
+<!-- INPUT -->
+<footer class="input-area">
   <input id="msg" placeholder="Digite sua mensagem..." />
-  <button onclick="send()">Enviar</button>
+  <button id="sendBtn">➤</button>
+</footer>
 
-  <script src="js/script.js"></script>
+<!-- MODAL LOGIN -->
+<div class="modal hidden" id="loginModal">
+  <div class="modal-box">
+    <button class="close" id="closeModal">×</button>
+
+    <h2 id="modalTitle">Entrar</h2>
+
+    <input id="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Senha" />
+
+    <button id="confirmBtn">Entrar</button>
+
+    <p class="switch">
+      <span id="switchText">Não tem conta?</span>
+      <a href="#" id="switchMode">Criar conta</a>
+    </p>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
 </body>
 </html>
