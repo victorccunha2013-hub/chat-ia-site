@@ -1,41 +1,36 @@
 import bcrypt
 import secrets
 import smtplib
-import os
-from email.message import EmailMessage
+from email.mime.text import MIMEText
 
-def hash_password(password):
+# -------- SENHA --------
+def hash_password(password: str) -> bytes:
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
-def verify_password(password, hashed):
+def verify_password(password: str, hashed: bytes) -> bool:
     return bcrypt.checkpw(password.encode(), hashed)
 
-def generate_token():
+# -------- TOKEN --------
+def generate_token() -> str:
     return secrets.token_urlsafe(32)
 
-def send_confirmation_email(to_email, token):
-    site_url = os.getenv("SITE_URL")
-    email_user = os.getenv("EMAIL_USER")
-    email_pass = os.getenv("EMAIL_PASS")
+# -------- EMAIL (GMAIL) --------
+def send_confirmation_email(to_email: str, token: str):
+    sender = "SEU_EMAIL@gmail.com"
+    password = "SENHA_DE_APP_DO_GMAIL"
 
-    if not email_user or not email_pass:
-        raise Exception("EMAIL_USER ou EMAIL_PASS não configurado")
+    link = f"https://chatbr.onrender.com/confirm/{token}"
 
-    msg = EmailMessage()
-    msg["Subject"] = "Confirme sua conta - ChatScript"
-    msg["From"] = email_user
+    msg = MIMEText(
+        f"Confirme sua conta clicando no link:\n\n{link}",
+        "plain",
+        "utf-8"
+    )
+
+    msg["Subject"] = "Confirmação de Conta - ChatScript"
+    msg["From"] = sender
     msg["To"] = to_email
 
-    msg.set_content(f"""
-Olá!
-
-Clique no link abaixo para confirmar sua conta no ChatScript:
-
-{site_url}/confirm?token={token}
-
-Se você não criou essa conta, ignore este email.
-""")
-
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(email_user, email_pass)
-        smtp.send_message(msg)
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(sender, password)
+        server.send_message(msg)

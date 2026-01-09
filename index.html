@@ -1,42 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <title>ChatScript</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <div id="chat"></div>
 
-<header class="topbar">
-  <h1>ChatScript</h1>
-  <div class="avatar" onclick="openModal()"></div>
-</header>
+  <input id="msg" placeholder="Digite sua mensagem..." />
+  <button onclick="send()">Enviar</button>
 
-<main id="chat"></main>
-
-<div class="input-area">
-  <input id="messageInput" placeholder="Digite sua mensagem..." />
-</div>
-
-<!-- MODAL LOGIN / CADASTRO -->
-<div id="authModal" class="modal hidden">
-  <div class="modal-box">
-    <button class="close-btn" onclick="closeModal()">✕</button>
-
-    <h2 id="modalTitle">Entrar</h2>
-
-    <input id="email" type="email" placeholder="Email" />
-    <input id="password" type="password" placeholder="Senha" />
-
-    <button class="primary-btn" onclick="submitAuth()">Confirmar</button>
-
-    <p class="switch-text">
-      <span id="switchText">Não tem uma conta?</span>
-      <span class="link" onclick="switchMode()">Criar conta</span>
-    </p>
-  </div>
-</div>
-
-<script src="js/script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>

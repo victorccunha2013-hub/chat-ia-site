@@ -1,89 +1,23 @@
-const chat = document.getElementById("chat");
-const input = document.getElementById("messageInput");
-const modal = document.getElementById("authModal");
-const title = document.getElementById("modalTitle");
+const API = "https://chatbr.onrender.com";
 
-let mode = "login";
-
-// CHAT
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") sendMessage();
-});
-
-function sendMessage() {
-  const text = input.value.trim();
-  if (!text) return;
-
-  addMessage(text, "user");
+function send() {
+  const input = document.getElementById("msg");
+  const text = input.value;
   input.value = "";
 
-  fetch("https://chatbr.onrender.com/chat", {
+  fetch(API + "/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: text })
   })
-    .then(res => res.json())
-    .then(data => typeBot(data.reply))
-    .catch(() => typeBot("Erro ao conectar com o servidor."));
-}
-
-function addMessage(text, type) {
-  const div = document.createElement("div");
-  div.className = `msg ${type}`;
-  div.textContent = text;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function typeBot(text) {
-  const div = document.createElement("div");
-  div.className = "msg bot";
-  chat.appendChild(div);
-
-  let i = 0;
-  const interval = setInterval(() => {
-    div.textContent += text[i];
-    i++;
-    chat.scrollTop = chat.scrollHeight;
-    if (i >= text.length) clearInterval(interval);
-  }, 20);
-}
-
-// MODAL
-function openModal() {
-  modal.classList.remove("hidden");
-}
-
-function closeModal() {
-  modal.classList.add("hidden");
-}
-
-function switchMode() {
-  mode = mode === "login" ? "register" : "login";
-  title.innerText = mode === "login" ? "Entrar" : "Criar conta";
-}
-function submitAuth() {
-  const endpoint = mode === "login" ? "login" : "signup";
-
-  fetch(`https://chatbr.onrender.com/${endpoint}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: document.getElementById("email").value,
-      password: document.getElementById("password").value
-    })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.error) {
-        alert(data.error);
-      } else {
-        alert(data.message || "Sucesso!");
-        closeModal();
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Erro ao conectar ao servidor");
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById("chat").innerHTML +=
+        "<p><b>Você:</b> " + text + "</p>" +
+        "<p><b>IA:</b> " + d.reply + "</p>";
     });
 }
+
+document.getElementById("msg").addEventListener("keydown", e => {
+  if (e.key === "Enter") send();
+});
