@@ -12,25 +12,30 @@
   <div class="avatar" id="openLogin"></div>
 </header>
 
-<main class="chat-container">
-  <!-- chat continua aqui -->
+<main class="chat-container" id="chat">
+  <!-- mensagens -->
 </main>
+
+<footer class="input-area">
+  <input id="msg" placeholder="Digite sua mensagem..." />
+  <button id="sendBtn">➤</button>
+</footer>
 
 <!-- MODAL LOGIN -->
 <div class="modal hidden" id="loginModal">
   <div class="modal-box">
-    <button class="close" id="closeModal">×</button>
+    <button class="close-btn" id="closeModal">×</button>
 
     <h2 id="modalTitle">Entrar</h2>
 
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Senha">
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Senha">
 
-    <button id="confirmBtn">Entrar</button>
+    <button class="primary-btn">Entrar</button>
 
     <p class="switch">
-      <span id="switchText">Não tem uma conta?</span>
-      <a href="#" id="switchMode">Criar conta</a>
+      Não tem conta?
+      <a href="#">Criar conta</a>
     </p>
   </div>
 </div>

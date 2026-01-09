@@ -1,39 +1,25 @@
+const chat = document.getElementById("chat");
+const input = document.getElementById("msg");
+
+document.getElementById("sendBtn").onclick = send;
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") send();
+});
+
+function send() {
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = "";
+
+  const div = document.createElement("div");
+  div.textContent = text;
+  div.style.marginBottom = "10px";
+  chat.appendChild(div);
+
+  chat.scrollTop = chat.scrollHeight;
+}
+
+/* MODAL */
 const modal = document.getElementById("loginModal");
-const openBtn = document.getElementById("openLogin");
-const closeBtn = document.getElementById("closeModal");
-
-const title = document.getElementById("modalTitle");
-const confirmBtn = document.getElementById("confirmBtn");
-const switchMode = document.getElementById("switchMode");
-const switchText = document.getElementById("switchText");
-
-let mode = "login";
-
-openBtn.onclick = () => modal.classList.remove("hidden");
-closeBtn.onclick = () => modal.classList.add("hidden");
-
-switchMode.onclick = (e) => {
-  e.preventDefault();
-
-  if (mode === "login") {
-    mode = "signup";
-    title.textContent = "Criar conta";
-    confirmBtn.textContent = "Criar conta";
-    switchText.textContent = "Já tem uma conta?";
-    switchMode.textContent = "Entrar";
-  } else {
-    mode = "login";
-    title.textContent = "Entrar";
-    confirmBtn.textContent = "Entrar";
-    switchText.textContent = "Não tem uma conta?";
-    switchMode.textContent = "Criar conta";
-  }
-};
-
-confirmBtn.onclick = () => {
-  alert(
-    mode === "login"
-      ? "Login (backend depois)"
-      : "Criar conta (backend depois)"
-  );
-};
+document.getElementById("openLogin").onclick = () => modal.classList.remove("hidden");
+document.getElementById("closeModal").onclick = () => modal.classList.add("hidden");
