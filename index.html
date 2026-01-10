@@ -1,42 +1,33 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>ChatScript</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<header class="topbar">
-  <div class="logo">ChatScript</div>
-  <div class="avatar" id="openLogin"></div>
+<header>
+  <h1>ChatScript</h1>
+  <div class="avatar"></div>
 </header>
 
-<main class="chat-container" id="chat">
-  <!-- mensagens -->
-</main>
+<main id="chat"></main>
 
-<footer class="input-area">
+<div class="input-bar">
   <input id="msg" placeholder="Digite sua mensagem..." />
-  <button id="sendBtn">➤</button>
-</footer>
+  <button onclick="send()">Enviar</button>
+</div>
 
-<!-- MODAL LOGIN -->
-<div class="modal hidden" id="loginModal">
+<div id="modal" class="modal">
   <div class="modal-box">
-    <button class="close-btn" id="closeModal">×</button>
+    <button class="close" onclick="closeModal()">×</button>
 
-    <h2 id="modalTitle">Entrar</h2>
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Senha">
 
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Senha">
-
-    <button class="primary-btn">Entrar</button>
-
-    <p class="switch">
-      Não tem conta?
-      <a href="#">Criar conta</a>
-    </p>
+    <button onclick="login()">Entrar</button>
+    <button onclick="signup()">Criar Conta</button>
   </div>
 </div>
 

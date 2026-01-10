@@ -3,33 +3,25 @@ import secrets
 import smtplib
 from email.mime.text import MIMEText
 
-# -------- SENHA --------
-def hash_password(password: str) -> bytes:
-    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+def hash_password(password: str) -> str:
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
-def verify_password(password: str, hashed: bytes) -> bool:
-    return bcrypt.checkpw(password.encode(), hashed)
+def verify_password(password: str, hashed: str) -> bool:
+    return bcrypt.checkpw(password.encode(), hashed.encode())
 
-# -------- TOKEN --------
-def generate_token() -> str:
+def generate_token():
     return secrets.token_urlsafe(32)
 
-# -------- EMAIL (GMAIL) --------
-def send_confirmation_email(to_email: str, token: str):
+def send_confirmation_email(email, token):
     sender = "SEU_EMAIL@gmail.com"
-    password = "SENHA_DE_APP_DO_GMAIL"
+    password = "SENHA_DE_APP_GMAIL"
 
-    link = f"https://chatbr.onrender.com/confirm/{token}"
+    link = f"https://chatbr.onrender.com/confirm?token={token}"
 
-    msg = MIMEText(
-        f"Confirme sua conta clicando no link:\n\n{link}",
-        "plain",
-        "utf-8"
-    )
-
+    msg = MIMEText(f"Confirme sua conta clicando no link:\n\n{link}")
     msg["Subject"] = "Confirmação de Conta - ChatScript"
     msg["From"] = sender
-    msg["To"] = to_email
+    msg["To"] = email
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(sender, password)
