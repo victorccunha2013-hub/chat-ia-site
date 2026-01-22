@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>ChatScript</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <header class="topbar">
-  <div class="logo">ChatScript</div>
-  <div class="avatar" id="openLogin"></div>
+  <h1>ChatScript</h1>
+  <div class="avatar" onclick="openLogin()"></div>
 </header>
 
-<main class="chat-container" id="chat">
-  <!-- mensagens -->
-</main>
+<main id="chat"></main>
 
-<footer class="input-area">
-  <input id="msg" placeholder="Digite sua mensagem..." />
-  <button id="sendBtn">➤</button>
-</footer>
+<!-- INPUT CHAT (ESTILO CHATGPT) -->
+<div class="chat-input">
+  <input id="message" placeholder="Digite sua mensagem..." autocomplete="off">
+  <button onclick="send()">➤</button>
+</div>
 
 <!-- MODAL LOGIN -->
-<div class="modal hidden" id="loginModal">
+<div id="loginModal" class="modal">
   <div class="modal-box">
-    <button class="close-btn" id="closeModal">×</button>
+    <button class="close" onclick="closeLogin()">×</button>
 
-    <h2 id="modalTitle">Entrar</h2>
+    <h2>Entrar</h2>
 
     <input type="email" placeholder="Email">
     <input type="password" placeholder="Senha">
 
-    <button class="primary-btn">Entrar</button>
+    <button class="primary">Entrar</button>
 
     <p class="switch">
       Não tem conta?
-      <a href="#">Criar conta</a>
+      <span onclick="toggleRegister()">Criar conta</span>
     </p>
   </div>
 </div>

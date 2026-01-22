@@ -1,100 +1,98 @@
-:root {
-  --bg: #0f0f14;
-  --panel: #1a1a23;
-  --text: #ffffff;
-  --input: #2a2a36;
-  --accent: #4f46e5;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: system-ui, sans-serif;
+}
+
+/* 🌗 MODO AUTOMÁTICO */
+@media (prefers-color-scheme: dark) {
+  body { background: #0f0f0f; color: #fff; }
+  .msg { background: #1f1f1f; }
+  .user { background: #2a2a2a; }
+  .chat-input { background: #0f0f0f; }
+  input { background: #1e1e1e; color: #fff; }
+  .modal-box { background: #1c1c1c; }
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
-    --bg: #f4f4f4;
-    --panel: #ffffff;
-    --text: #000000;
-    --input: #e5e5e5;
-  }
-}
-
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+  body { background: #f7f7f7; color: #000; }
+  .msg { background: #eaeaea; }
+  .user { background: #dcdcdc; }
+  .chat-input { background: #f7f7f7; }
+  input { background: #fff; color: #000; }
+  .modal-box { background: #fff; }
 }
 
 /* TOPO */
 .topbar {
-  height: 56px;
-  background: linear-gradient(90deg, #7c3aed, #4f46e5);
+  height: 60px;
+  padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-}
-
-.logo {
-  font-weight: bold;
 }
 
 .avatar {
   width: 36px;
   height: 36px;
-  background: #9ca3af;
   border-radius: 50%;
+  background: #777;
   cursor: pointer;
-  position: relative;
-}
-
-.avatar::after {
-  content: "";
-  width: 18px;
-  height: 18px;
-  background: #6b7280;
-  border-radius: 50%;
-  position: absolute;
-  top: 9px;
-  left: 9px;
 }
 
 /* CHAT */
-.chat-container {
-  flex: 1;
-  padding: 16px;
+#chat {
+  height: calc(100vh - 140px);
   overflow-y: auto;
-}
-
-/* INPUT */
-.input-area {
+  padding: 20px;
   display: flex;
-  padding: 12px;
-  background: var(--panel);
-  border-top: 1px solid rgba(255,255,255,0.1);
+  flex-direction: column;
+  gap: 12px;
 }
 
-.input-area input {
-  flex: 1;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  background: var(--input);
-  color: var(--text);
-  outline: none;
+.msg {
+  padding: 14px 16px;
+  border-radius: 14px;
+  max-width: 80%;
+  line-height: 1.5;
+  word-wrap: break-word;
 }
 
-.input-area button {
-  margin-left: 8px;
-  padding: 12px 16px;
-  border-radius: 10px;
+.user {
+  align-self: flex-end;
+}
+
+/* INPUT CHAT (CHATGPT STYLE) */
+.chat-input {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.chat-input input {
+  width: 100%;
+  max-width: 720px;
+  padding: 14px 48px 14px 16px;
+  border-radius: 16px;
   border: none;
-  background: var(--accent);
-  color: white;
+  font-size: 16px;
+}
+
+.chat-input button {
+  position: absolute;
+  right: calc(50% - 360px + 10px);
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: none;
   cursor: pointer;
 }
 
@@ -102,65 +100,56 @@ body {
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
+  background: rgba(0,0,0,.6);
+  display: none;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-}
-
-.hidden {
-  display: none;
 }
 
 .modal-box {
-  background: var(--panel);
-  width: 320px;
-  padding: 24px;
+  width: 340px;
+  padding: 28px;
   border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   position: relative;
 }
 
 .modal-box h2 {
   text-align: center;
-  margin-bottom: 16px;
 }
 
 .modal-box input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
+  padding: 10px;
   border-radius: 8px;
   border: none;
-  background: var(--input);
-  color: var(--text);
 }
 
-.primary-btn {
-  width: 100%;
-  padding: 12px;
+.primary {
+  background: #4a6cf7;
+  color: #fff;
+  padding: 10px;
   border-radius: 8px;
   border: none;
-  background: var(--accent);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* X CORRETO */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  background: none;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  color: #aaa;
 }
 
 .switch {
   text-align: center;
-  margin-top: 12px;
   font-size: 14px;
+}
+
+.switch span {
+  color: #4a6cf7;
+  cursor: pointer;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
