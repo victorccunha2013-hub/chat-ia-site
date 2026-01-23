@@ -1,45 +1,24 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>ChatScript</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-<header class="topbar">
-  <h1>ChatScript</h1>
-  <div class="avatar" onclick="openLogin()"></div>
-</header>
-
-<main id="chat"></main>
-
-<!-- INPUT CHAT -->
-<div class="chat-input">
-  <input id="message" placeholder="Digite sua mensagem..." autocomplete="off">
-  <button id="sendBtn">➤</button>
-</div>
-
 <!-- MODAL LOGIN -->
 <div id="loginModal" class="modal">
   <div class="modal-box">
     <button class="close" onclick="closeLogin()">×</button>
+    <h2 id="title">Entrar</h2>
 
-    <h2 id="modalTitle">Entrar</h2>
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Senha">
 
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Senha">
-
-    <button class="primary">Entrar</button>
-
-    <p class="switch">
-      Não tem conta?
-      <span onclick="toggleRegister()">Criar conta</span>
-    </p>
+    <button onclick="submitAuth()">Confirmar</button>
+    <p onclick="toggleRegister()">Criar conta</p>
+    <p id="status"></p>
   </div>
 </div>
 
-<script src="js/script.js"></script>
-</body>
-</html>
+<!-- MODAL CONFIRMAÇÃO -->
+<div id="confirmModal" class="modal">
+  <div class="modal-box">
+    <h2>Confirmar Código</h2>
+    <input id="code" placeholder="Código de 6 dígitos">
+    <button onclick="confirmCode()">Confirmar</button>
+    <p id="confirmStatus"></p>
+  </div>
+</div>
