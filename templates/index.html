@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>ChatScript</title>
+
+  <!-- ⚠️ TEM QUE SER ASSIM NO FLASK -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <h1>ChatScript</h1>
+  <div class="avatar" onclick="openLogin()"></div>
+</header>
+
+<main id="chat"></main>
+
+<div class="chat-input">
+  <input id="message" placeholder="Digite sua mensagem..." autocomplete="off">
+  <button onclick="send()">➤</button>
+</div>
+
+<!-- MODAL LOGIN -->
+<div id="loginModal" class="modal">
+  <div class="modal-box">
+    <button class="close" onclick="closeLogin()">×</button>
+
+    <h2>Entrar</h2>
+
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Senha">
+
+    <button class="primary" onclick="login()">Entrar</button>
+
+    <p class="switch">
+      Não tem conta?
+      <span onclick="toggleRegister()">Criar conta</span>
+    </p>
+  </div>
+</div>
+
+<!-- ⚠️ JS TAMBÉM ASSIM -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
