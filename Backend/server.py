@@ -6,6 +6,7 @@ from openai import OpenAI
 app = Flask(__name__)
 CORS(app)
 
+# Cliente OpenAI
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 @app.route("/")
@@ -14,11 +15,11 @@ def home():
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    data = request.json
-    user_message = data.get("message", "").strip()
+    data = request.get_json()
 
+    user_message = data.get("message", "").strip()
     if not user_message:
-        return jsonify({"reply": "Mensagem vazia"}), 400
+        return jsonify({"reply": "Mensagem vazia."}), 400
 
     try:
         response = client.chat.completions.create(
@@ -27,9 +28,9 @@ def chat():
                 {
                     "role": "system",
                     "content": (
-                        "Você é a IA ChatScript. "
-                        "Você foi criada por Victor Carvalho Cunha. "
-                        "Responda de forma natural, sem repetir a pergunta do usuário."
+                        "Você é a IA ChatScript, educada, clara e amigável. "
+                        "Nunca repita a mensagem do usuário. "
+                        "Responda apenas com a resposta."
                     )
                 },
                 {

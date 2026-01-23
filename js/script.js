@@ -1,71 +1,77 @@
-const chat = document.getElementById("chat");
-const input = document.getElementById("message");
-const modal = document.getElementById("loginModal");
+document.addEventListener("DOMContentLoaded", () => {
+  const chat = document.getElementById("chat");
+  const input = document.getElementById("message");
+  const sendBtn = document.getElementById("sendBtn");
 
-const API = "https://chatbr.onrender.com";
+  const API = "https://chatbr.onrender.com/chat";
 
-/* ENTER FUNCIONA */
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    send();
-  }
-});
+  function addMessage(text, type, animate = false) {
+    const div = document.createElement("div");
+    div.className = `msg ${type}`;
+    chat.appendChild(div);
 
-/* ADICIONA MENSAGEM */
-function addMessage(text, type) {
-  const div = document.createElement("div");
-  div.className = `msg ${type}`;
-  chat.appendChild(div);
-
-  let i = 0;
-  function typeWriter() {
-    if (i < text.length) {
-      div.textContent += text[i];
-      i++;
-      chat.scrollTop = chat.scrollHeight;
-      setTimeout(typeWriter, 18);
+    if (animate) {
+      let i = 0;
+      const interval = setInterval(() => {
+        div.textContent += text[i];
+        i++;
+        chat.scrollTop = chat.scrollHeight;
+        if (i >= text.length) clearInterval(interval);
+      }, 20);
+    } else {
+      div.textContent = text;
     }
+
+    chat.scrollTop = chat.scrollHeight;
   }
 
-  typeWriter();
-}
+  function send() {
+    const text = input.value.trim();
+    if (!text) return;
 
-/* ENVIA MENSAGEM */
-function send() {
-  const text = input.value.trim();
-  if (!text) return;
+    addMessage(text, "user");
+    input.value = "";
 
-  addMessage(text, "user");
-  input.value = "";
+    const typing = document.createElement("div");
+    typing.className = "msg bot";
+    typing.textContent = "ChatScript está digitando...";
+    chat.appendChild(typing);
+    chat.scrollTop = chat.scrollHeight;
 
-  const typing = document.createElement("div");
-  typing.className = "msg bot";
-  typing.textContent = "ChatScript está digitando...";
-  chat.appendChild(typing);
-  chat.scrollTop = chat.scrollHeight;
-
-  fetch(API + "/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
-  })
-    .then(res => res.json())
-    .then(data => {
-      typing.remove();
-      addMessage(data.reply, "bot"); // 👈 SEM PREFIXO
+    fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text })
     })
-    .catch(() => {
-      typing.remove();
-      addMessage("Erro ao conectar com o servidor.", "bot");
-    });
-}
+      .then(res => res.json())
+      .then(data => {
+        typing.remove();
+        addMessage(data.reply, "bot", true);
+      })
+      .catch(() => {
+        typing.remove();
+        addMessage("Erro ao conectar com o servidor.", "bot");
+      });
+  }
 
-/* LOGIN MODAL */
-function openLogin() {
-  modal.style.display = "flex";
-}
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") send();
+  });
 
-function closeLogin() {
-  modal.style.display = "none";
-}
+  sendBtn.onclick = send;
+
+  /* MODAL */
+  window.openLogin = () => {
+    document.getElementById("loginModal").style.display = "flex";
+  };
+
+  window.closeLogin = () => {
+    document.getElementById("loginModal").style.display = "none";
+  };
+
+  window.toggleRegister = () => {
+    const title = document.getElementById("modalTitle");
+    title.textContent =
+      title.textContent === "Entrar" ? "Criar conta" : "Entrar";
+  };
+});

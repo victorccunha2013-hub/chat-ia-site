@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>ChatScript</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -14,10 +15,10 @@
 
 <main id="chat"></main>
 
-<!-- INPUT CHAT (ESTILO CHATGPT) -->
+<!-- INPUT CHAT -->
 <div class="chat-input">
   <input id="message" placeholder="Digite sua mensagem..." autocomplete="off">
-  <button onclick="send()">➤</button>
+  <button id="sendBtn">➤</button>
 </div>
 
 <!-- MODAL LOGIN -->
@@ -25,7 +26,7 @@
   <div class="modal-box">
     <button class="close" onclick="closeLogin()">×</button>
 
-    <h2>Entrar</h2>
+    <h2 id="modalTitle">Entrar</h2>
 
     <input type="email" placeholder="Email">
     <input type="password" placeholder="Senha">
